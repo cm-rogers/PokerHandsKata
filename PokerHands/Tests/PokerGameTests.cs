@@ -1,4 +1,5 @@
 using FluentAssertions;
+using PokerHands.Models;
 using Xunit;
 
 namespace PokerHands.Tests
@@ -15,12 +16,12 @@ namespace PokerHands.Tests
         [Fact]
         public void ReturnsTheNameOfThePlayerWhoWonHighCard()
         {
-            const string player1Hand = "2H 3D 5S 9C KD";
-            const string player2Hand = "2C 3H 4S 8C AH";
+            var player1 = new Player("player1", "2H 3D 5S 9C KD");
+            var player2 = new Player("player2", "2C 3H 4S 8C AH");
 
-            var response = _pokerGame.PlayCards(player1Hand, player2Hand);
+            var response = _pokerGame.PlayCards(player1, player2);
 
-            response.Should().Be(2);
+            response.Should().Be(player2.Name);
         }
     }
 }
