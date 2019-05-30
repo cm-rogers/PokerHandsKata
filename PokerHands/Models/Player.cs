@@ -17,8 +17,11 @@ namespace PokerHands.Models
         private static IEnumerable<Card> ConvertToHandOfCards(string hand)
         {
             return hand.Split(" ")
-                .Select(v => v.Substring(0, 1)) // @TODO: Add suit back when testable
-                .SelectMany(handValue => Card.Deck.Where(c => c.Value == handValue));
+                // @TODO: Add suit back when testable
+                .Select(v => v.Substring(0, 1))
+                .SelectMany(handValue =>
+                    Card.Deck.Where(c => c.Value == handValue)
+                );
         }
     }
 }
