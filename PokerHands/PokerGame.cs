@@ -8,15 +8,15 @@ namespace PokerHands
         public string PlayCards(Player player1, Player player2)
         {
             // @TODO: Make this a function
-            var player1HighCard = player1.Hand.Max(c => c.Score);
-            var player2HighCard = player2.Hand.Max(c => c.Score);
+            var player1HighCard = player1.Hand.PlayedCards.Max(c => c.Score);
+            var player2HighCard = player2.Hand.PlayedCards.Max(c => c.Score);
 
-            var player1PairScore = player1.Hand
+            var player1PairScore = player1.Hand.PlayedCards
                 .GroupBy(c => c.Score)
                 .Where(g => g.Count() == 2)
                 .SelectMany(g => g)
                 .Sum(c => c.Score);
-            var player2PairScore = player2.Hand
+            var player2PairScore = player2.Hand.PlayedCards
                 .GroupBy(c => c.Score)
                 .Where(g => g.Count() == 2)
                 .SelectMany(g => g)

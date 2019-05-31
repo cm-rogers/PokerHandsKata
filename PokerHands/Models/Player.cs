@@ -5,13 +5,30 @@ namespace PokerHands.Models
 {
     public class Player
     {
-        public string Name;
-        public IEnumerable<Card> Hand;
+        public string Name { get; }
+        public PlayerHand Hand { get; }
 
         public Player(string name, string hand)
         {
             Name = name;
-            Hand = ConvertToHandOfCards(hand);
+            Hand = new PlayerHand(hand);
+        }
+    }
+
+    public class PlayerHand
+    {
+        public IEnumerable<Card> PlayedCards;
+        public Hands Best;
+        public int Score;
+
+        public PlayerHand(string playedCards)
+        {
+            PlayedCards = ConvertToHandOfCards(playedCards);
+        }
+
+        public void CalculateHighCard()
+        {
+            // @TODO: Move high card calculation here
         }
 
         private static IEnumerable<Card> ConvertToHandOfCards(string hand)
@@ -23,5 +40,10 @@ namespace PokerHands.Models
                     Card.Deck.Where(c => c.Value == handValue)
                 );
         }
+    }
+
+    public enum Hands {
+        HighCard,
+        Pair,
     }
 }
