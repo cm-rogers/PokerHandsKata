@@ -23,5 +23,16 @@ namespace PokerHands.Tests
 
             response.Should().Be(player2.Name);
         }
+
+        [Fact]
+        public void ReturnsTheNameOfThePlayerWhoWonAPair()
+        {
+            var player1 = new Player("player1", "2H 3D 5S KC KD");
+            var player2 = new Player("player2", "2C 3H 8S 8C AH");
+
+            var response = _pokerGame.PlayCards(player1, player2);
+
+            response.Should().Be(player1.Name);
+        }
     }
 }
