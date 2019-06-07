@@ -7,29 +7,14 @@ namespace PokerHands
     {
         public string PlayCards(Player player1, Player player2)
         {
-            // @TODO: Make this a function
-            var player1HighCard = player1.Hand.PlayedCards.Max(c => c.Score);
-            var player2HighCard = player2.Hand.PlayedCards.Max(c => c.Score);
-
-            var player1PairScore = player1.Hand.PlayedCards
-                .GroupBy(c => c.Score)
-                .Where(g => g.Count() == 2)
-                .SelectMany(g => g)
-                .Sum(c => c.Score);
-            var player2PairScore = player2.Hand.PlayedCards
-                .GroupBy(c => c.Score)
-                .Where(g => g.Count() == 2)
-                .SelectMany(g => g)
-                .Sum(c => c.Score);
-
-            if (player1PairScore > 0 || player2PairScore > 0)
+            if (player1.Hand.Best.Type == player2.Hand.Best.Type)
             {
-                return player1PairScore > player2PairScore
+                return player1.Hand.Best.Score > player2.Hand.Best.Score
                     ? player1.Name
                     : player2.Name;
             }
 
-            return player1HighCard > player2HighCard
+            return player1.Hand.Best.Type > player2.Hand.Best.Type
                 ? player1.Name
                 : player2.Name;
         }
