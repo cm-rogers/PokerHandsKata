@@ -11,12 +11,15 @@ namespace PokerHands.Models
 
         private static IEnumerable<Card> MakeDeck()
         {
-            return Enumerable.Range(2, 9)
+            const int firstCardValue = 2;
+            var faceCards = new[] {"J", "Q", "K", "A"};
+
+            return Enumerable.Range(firstCardValue, 9)
                 .Select(i => i.ToString())
-                .Concat(new[] { "J", "Q", "K", "A" })
+                .Concat(faceCards)
                 .ToList()
                 .Select((value, index) =>
-                    new Card { Value = value, Score = index + 2 }
+                    new Card {Value = value, Score = index + firstCardValue}
                 );
         }
 
@@ -24,7 +27,7 @@ namespace PokerHands.Models
         {
             return hand.Split(" ")
                 // @TODO: Add suit back when testable
-                .Select(v => v.Substring(0, 1))
+                .Select(cardValue => cardValue.Substring(0, 1))
                 .SelectMany(handValue =>
                     Deck.Where(c => c.Value == handValue)
                 );

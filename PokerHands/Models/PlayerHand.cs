@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace PokerHands.Models
@@ -6,7 +6,7 @@ namespace PokerHands.Models
     public class PlayerHand
     {
         private readonly IEnumerable<Card> _playedCards;
-        public Hand Best;
+        public Hand Best { get; private set; }
 
         public PlayerHand(string playedCards)
         {

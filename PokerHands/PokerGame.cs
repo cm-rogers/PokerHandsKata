@@ -1,4 +1,3 @@
-﻿using System.Linq;
 using PokerHands.Models;
 
 namespace PokerHands
