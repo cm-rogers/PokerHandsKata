@@ -9,7 +9,9 @@ namespace PokerHands.Tests.Models
         [Fact]
         public void BestHandIsCalculatedAsHighCardCorrectly()
         {
-            var playerHand = new PlayerHand("2H 3D 9C KD 5S");
+            var playerHand = new PlayerHand(
+                new Player {Hand = "2H 3D 9C KD 5S", Name = "Alice"}
+            );
 
             playerHand.Best.Should().BeEquivalentTo(new Hand
             {
@@ -22,7 +24,9 @@ namespace PokerHands.Tests.Models
         [Fact]
         public void BestPairIsCalculatedCorrectly()
         {
-            var playerHand = new PlayerHand("2H 3D 3C KD 5S");
+            var playerHand = new PlayerHand(
+                new Player {Hand = "2H 3D 3C KD 5S", Name = "Bob"}
+            );
 
             playerHand.Best.Should().BeEquivalentTo(new Hand
             {

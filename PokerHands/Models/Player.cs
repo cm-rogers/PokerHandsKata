@@ -2,13 +2,7 @@
 {
     public class Player
     {
-        public string Name { get; }
-        public PlayerHand Hand { get; }
-
-        public Player(string name, string hand)
-        {
-            Name = name;
-            Hand = new PlayerHand(hand);
-        }
+        public string Name { get; set; }
+        public string Hand { get; set; }
     }
 }

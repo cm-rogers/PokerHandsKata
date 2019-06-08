@@ -1,4 +1,4 @@
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 
 namespace PokerHands.Models
@@ -7,10 +7,12 @@ namespace PokerHands.Models
     {
         private readonly IEnumerable<Card> _playedCards;
         public Hand Best { get; private set; }
+        public Player Player { get; }
 
-        public PlayerHand(string playedCards)
+        public PlayerHand(Player player)
         {
-            _playedCards = Card.ConvertToHandOfCards(playedCards);
+            Player = player;
+            _playedCards = Card.ConvertToHandOfCards(player.Hand);
             CalculateBestHand();
         }
 

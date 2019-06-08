@@ -1,4 +1,4 @@
-using PokerHands.Models;
+﻿using PokerHands.Models;
 
 namespace PokerHands
 {
@@ -6,24 +6,27 @@ namespace PokerHands
     {
         public string PlayCards(Player player1, Player player2)
         {
-            Player winningPlayer;
+            PlayerHand winningPlayerHand;
 
-            if (player1.Hand.Best.Type == player2.Hand.Best.Type)
+            var player1Hand = new PlayerHand(player1);
+            var player2Hand = new PlayerHand(player2);
+
+            if (player1Hand.Best.Type == player2Hand.Best.Type)
             {
-                winningPlayer = player1.Hand.Best.Score > player2.Hand.Best.Score
-                    ? player1
-                    : player2;
+                winningPlayerHand = player1Hand.Best.Score > player2Hand.Best.Score
+                    ? player1Hand
+                    : player2Hand;
             }
             else
             {
-                winningPlayer = player1.Hand.Best.Type > player2.Hand.Best.Type
-                    ? player1
-                    : player2;
+                winningPlayerHand = player1Hand.Best.Type > player2Hand.Best.Type
+                    ? player1Hand
+                    : player2Hand;
             }
 
-            return $"Player {winningPlayer.Name} wins with a "
-                       + $"{winningPlayer.Hand.Best.Type.ToString()}"
-                       + $" score of {winningPlayer.Hand.Best.Score}";
+            return $"Player {winningPlayerHand.Player.Name} wins with a "
+                   + $"{winningPlayerHand.Best.Type.ToString()}"
+                   + $" score of {winningPlayerHand.Best.Score}";
         }
     }
 }
