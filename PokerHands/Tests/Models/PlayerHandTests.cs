@@ -7,6 +7,15 @@ namespace PokerHands.Tests.Models
     public class PlayerHandTests
     {
         [Fact]
+        public void ItStoresThePlayer()
+        {
+            var player = new Player {Hand = "2H 3D 9C KD 5S", Name = "Alice"};
+            var playerHand = new PlayerHand(player);
+
+            playerHand.Player.Should().BeEquivalentTo(player);
+        }
+
+        [Fact]
         public void BestHandIsCalculatedAsHighCardCorrectly()
         {
             var playerHand = new PlayerHand(
