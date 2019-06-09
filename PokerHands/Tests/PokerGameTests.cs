@@ -37,6 +37,18 @@ namespace PokerHands.Tests
             response.Should().Be(expectedOutput);
         }
 
+        [Fact]
+        public void PairBeatsHighCard()
+        {
+            var player1 = new Player {Name = "Alice", Hand = "2H 3D 5S QC KD"};
+            var player2 = new Player {Name = "Frank", Hand = "2C 3H 5S AC AH"};
+            var expectedOutput = GenerateExpectedOutput(player2);
+
+            var response = _pokerGame.PlayCards(player1, player2);
+
+            response.Should().Be(expectedOutput);
+        }
+
         private static string GenerateExpectedOutput(Player player)
         {
             var playerHand = new PlayerHand(player);
