@@ -9,8 +9,8 @@ namespace PokerHands.Models {
 
         public enum Types
         {
-            HighCard,
-            Pair
+            HighCard = 0,
+            Pair = 1
         }
     }
 }
