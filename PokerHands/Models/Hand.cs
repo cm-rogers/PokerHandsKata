@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using PokerHands.Services;
 
 namespace PokerHands.Models {
     public class Hand

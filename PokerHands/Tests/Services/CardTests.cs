@@ -1,9 +1,9 @@
 ﻿using System.Collections.Generic;
 using FluentAssertions;
-using PokerHands.Models;
+using PokerHands.Services;
 using Xunit;
 
-namespace PokerHands.Tests.Models
+namespace PokerHands.Tests.Services
 {
     public class CardTests
     {

@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 
-namespace PokerHands.Models
+namespace PokerHands.Services
 {
     public class Card
     {

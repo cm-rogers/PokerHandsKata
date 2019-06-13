@@ -1,5 +1,6 @@
 using FluentAssertions;
 using PokerHands.Models;
+using PokerHands.Services;
 using Xunit;
 
 namespace PokerHands.Tests
