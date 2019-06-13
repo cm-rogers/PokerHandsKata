@@ -6,13 +6,17 @@ namespace PokerHands.Services
 {
     public class PlayerHand
     {
-        private readonly IEnumerable<Card> _playedCards;
-        public Hand Best { get; private set; }
+        public Hand Best { private set; get; }
         public Player Player { get; }
+
+        private readonly IEnumerable<Card> _playedCards;
+        private HandCalculator Calculator { get; }
 
         public PlayerHand(Player player)
         {
             Player = player;
+            Calculator = new HandCalculator();
+
             _playedCards = Card.ConvertToHandOfCards(player.Hand);
             CalculateBestHand();
         }
@@ -21,8 +25,8 @@ namespace PokerHands.Services
         {
             var calculatedHands = new List<Hand>
             {
-                CalculateHighCard(),
-                CalculatePair()
+                Calculator.HighCard(_playedCards),
+                Calculator.Pair(_playedCards)
             };
 
             Best = calculatedHands.Aggregate((bestHand, nextHand) =>
@@ -30,36 +34,6 @@ namespace PokerHands.Services
                     ? nextHand
                     : bestHand
             );
-        }
-
-        private Hand CalculateHighCard()
-        {
-            var highCard = _playedCards.Aggregate((highestCard, nextCard) =>
-                nextCard.Score > highestCard.Score ? nextCard : highestCard
-            );
-
-            return new Hand
-            {
-                PlayedCards = new[] {highCard},
-                Score = highCard.Score,
-                Type = Hand.Types.HighCard
-            };
-        }
-
-        private Hand CalculatePair()
-        {
-            var pair = _playedCards
-                .GroupBy(card => card.Score)
-                .Where(grouping => grouping.Count() == 2)
-                .SelectMany(grouping => grouping)
-                .ToList();
-
-            return new Hand
-            {
-                PlayedCards = pair,
-                Score = pair.Sum(c => c.Score),
-                Type = Hand.Types.Pair
-            };
         }
     }
 }

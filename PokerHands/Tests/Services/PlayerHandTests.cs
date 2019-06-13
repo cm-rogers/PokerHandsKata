@@ -50,4 +50,9 @@ namespace PokerHands.Tests.Services
             });
         }
     }
+
+    public class HandCalculatorTests
+    {
+
+    }
 }
