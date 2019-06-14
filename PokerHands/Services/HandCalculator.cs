@@ -6,7 +6,22 @@ namespace PokerHands.Services
 {
     public class HandCalculator
     {
-        public Hand HighCard(IEnumerable<Card> playedCards)
+        public Hand BestHand(List<Card> playedCards)
+        {
+            var calculatedHands = new List<Hand>
+            {
+                HighCard(playedCards),
+                Pair(playedCards)
+            };
+
+            return calculatedHands.Aggregate((bestHand, nextHand) =>
+                nextHand.Type > bestHand.Type && nextHand.PlayedCards.Any()
+                    ? nextHand
+                    : bestHand
+            );
+        }
+
+        private static Hand HighCard(IEnumerable<Card> playedCards)
         {
             var highCard = playedCards.Aggregate((highestCard, nextCard) =>
                 nextCard.Score > highestCard.Score ? nextCard : highestCard
@@ -20,7 +35,7 @@ namespace PokerHands.Services
             };
         }
 
-        public Hand Pair(IEnumerable<Card> playedCards)
+        private static Hand Pair(IEnumerable<Card> playedCards)
         {
             var pair = playedCards
                 .GroupBy(card => card.Score)
