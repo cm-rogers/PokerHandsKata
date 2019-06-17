@@ -1,12 +1,13 @@
 ﻿using System.Collections.Generic;
 using PokerHands.Services;
 
-namespace PokerHands.Models {
+namespace PokerHands.Models
+{
     public class Hand
     {
         public IEnumerable<Card> PlayedCards;
-        public int               Score;
-        public Types             Type;
+        public int Score;
+        public Types Type;
 
         public enum Types
         {

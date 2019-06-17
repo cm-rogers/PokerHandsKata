@@ -55,8 +55,8 @@ namespace PokerHands.Tests
             var playerHand = new PlayerHand(player);
 
             return $"Player {player.Name} wins with a "
-                + $"{playerHand.Best.Type.ToString()}"
-                + $" score of {playerHand.Best.Score}";
+                   + $"{playerHand.Best.Type.ToString()}"
+                   + $" score of {playerHand.Best.Score}";
         }
     }
 }
