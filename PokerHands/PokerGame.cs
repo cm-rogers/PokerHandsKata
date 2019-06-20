@@ -1,5 +1,5 @@
-using System.Linq;
-using PokerHands.Models;
+﻿using PokerHands.Models;
+using PokerHands.Services;
 
 namespace PokerHands
 {
@@ -7,13 +7,27 @@ namespace PokerHands
     {
         public string PlayCards(Player player1, Player player2)
         {
-            // @TODO: Make this a function
-            var player1HighCard = player1.Hand.Max(c => c.Score);
-            var player2HighCard = player2.Hand.Max(c => c.Score);
+            PlayerHand winningPlayerHand;
 
-            return player1HighCard > player2HighCard
-                ? player1.Name
-                : player2.Name;
+            var player1Hand = new PlayerHand(player1);
+            var player2Hand = new PlayerHand(player2);
+
+            if (player1Hand.Best.Type == player2Hand.Best.Type)
+            {
+                winningPlayerHand = player1Hand.Best.Score > player2Hand.Best.Score
+                    ? player1Hand
+                    : player2Hand;
+            }
+            else
+            {
+                winningPlayerHand = player1Hand.Best.Type > player2Hand.Best.Type
+                    ? player1Hand
+                    : player2Hand;
+            }
+
+            return $"Player {winningPlayerHand.Player.Name} wins with a "
+                   + $"{winningPlayerHand.Best.Type.ToString()}"
+                   + $" score of {winningPlayerHand.Best.Score}";
         }
     }
 }
