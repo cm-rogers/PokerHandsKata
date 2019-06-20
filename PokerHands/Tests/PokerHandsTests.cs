@@ -1,3 +1,5 @@
+using FluentAssertions;
+using PokerHands.Models;
 using Xunit;
 
 namespace PokerHands.Tests
@@ -7,19 +9,12 @@ namespace PokerHands.Tests
         [Fact]
         public void ReturnsTheNameOfThePlayerWithTheBestHighCard()
         {
-            object player1 = new
-            {
-                Name = "player1",
-                Hand = ""
-            };
+            var player1 = new Player("player1", "");
+            var player2 = new Player("player2", "");
 
-            object player2 = new
-            {
-                Name = "player2",
-                Hand = ""
-            };
+            var result = PokerHands.Compare(player1, player2);
 
-            PokerHands.Compare(player1, player2);
+            result.Should().Be("player1");
         }
     }
 }
