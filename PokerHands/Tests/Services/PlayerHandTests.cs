@@ -15,7 +15,7 @@ namespace PokerHands.Tests.Services
 
             var playerHand = new PlayerHand(player);
 
-            playerHand.Player.Should().BeEquivalentTo(player);
+            playerHand.Player.ShouldBeEquivalentTo(player);
         }
 
         [Fact]
@@ -24,12 +24,12 @@ namespace PokerHands.Tests.Services
             var player = new Player {Hand = "2H 3D 9C KD 5S", Name = "Alice"};
             var calculator = new HandCalculator();
             var playedCards = Card.ConvertToHandOfCards(player.Hand).ToList();
+            var expectedOutcome = calculator.BestHand(playedCards);
 
             var playerHand = new PlayerHand(player);
 
             playerHand.Best
-                .Should()
-                .BeEquivalentTo(calculator.BestHand(playedCards));
+                .ShouldBeEquivalentTo(expectedOutcome);
         }
     }
 }

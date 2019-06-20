@@ -30,7 +30,7 @@ namespace PokerHands.Tests.Services
 
             var response = _calculator.BestHand(playerHand);
 
-            response.Should().BeEquivalentTo(expectedResponse);
+            response.ShouldBeEquivalentTo(expectedResponse);
         }
 
         [Fact]
@@ -48,7 +48,7 @@ namespace PokerHands.Tests.Services
 
             var response = _calculator.BestHand(playerHand);
 
-            response.Should().BeEquivalentTo(expectedResponse);
+            response.ShouldBeEquivalentTo(expectedResponse);
         }
     }
 }
