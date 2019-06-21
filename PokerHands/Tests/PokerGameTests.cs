@@ -38,6 +38,18 @@ namespace PokerHands.Tests
         }
 
         [Fact]
+        public void ReturnsTheNameOfThePlayerWhoWonTwoPair()
+        {
+            var player1 = new Player {Name = "Alice", Hand = "2H 2D 5S 5C KD"};
+            var player2 = new Player {Name = "Frank", Hand = "2C 3H 8S 8C AH"};
+            var expectedOutput = GenerateOutputForExpectedWinner(player1.Name, Hand.Types.TwoPair, 14);
+
+            var response = _pokerGame.PlayCards(player1, player2);
+
+            response.Should().Be(expectedOutput);
+        }
+
+        [Fact]
         public void PairBeatsHighCard()
         {
             var player1 = new Player {Name = "Alice", Hand = "2H 3D 5S QC KD"};
