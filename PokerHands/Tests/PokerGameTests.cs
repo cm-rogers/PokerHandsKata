@@ -18,7 +18,10 @@ namespace PokerHands.Tests
         {
             var player1 = new Player {Name = "Bob", Hand = "2H 3D 5S 9C KD"};
             var player2 = new Player {Name = "Harry", Hand = "2C 3H 4S 8C AH"};
-            var expectedOutput = GenerateOutputForExpectedWinner(player2.Name, Hand.Types.HighCard, 14);
+            var expectedOutput = GenerateOutputForExpectedWinner(
+                player2.Name,
+                Hand.Types.HighCard,
+                14);
 
             var response = _pokerGame.PlayCards(player1, player2);
 
@@ -30,7 +33,10 @@ namespace PokerHands.Tests
         {
             var player1 = new Player {Name = "Alice", Hand = "2H 3D 5S KC KD"};
             var player2 = new Player {Name = "Frank", Hand = "2C 3H 8S 8C AH"};
-            var expectedOutput = GenerateOutputForExpectedWinner(player1.Name, Hand.Types.Pair, 26);
+            var expectedOutput = GenerateOutputForExpectedWinner(
+                player1.Name,
+                Hand.Types.Pair,
+                26);
 
             var response = _pokerGame.PlayCards(player1, player2);
 
@@ -42,7 +48,10 @@ namespace PokerHands.Tests
         {
             var player1 = new Player {Name = "Alice", Hand = "2H 2D 5S 5C KD"};
             var player2 = new Player {Name = "Frank", Hand = "2C 3H 8S 8C AH"};
-            var expectedOutput = GenerateOutputForExpectedWinner(player1.Name, Hand.Types.TwoPair, 14);
+            var expectedOutput = GenerateOutputForExpectedWinner(
+                player1.Name,
+                Hand.Types.TwoPair,
+                14);
 
             var response = _pokerGame.PlayCards(player1, player2);
 
@@ -54,7 +63,10 @@ namespace PokerHands.Tests
         {
             var player1 = new Player {Name = "Alice", Hand = "2H 3D 5S QC KD"};
             var player2 = new Player {Name = "Frank", Hand = "2C 3H 5S AC AH"};
-            var expectedOutput = GenerateOutputForExpectedWinner(player2.Name, Hand.Types.Pair, 28);
+            var expectedOutput = GenerateOutputForExpectedWinner(
+                player2.Name,
+                Hand.Types.Pair,
+                28);
 
             var response = _pokerGame.PlayCards(player1, player2);
 
