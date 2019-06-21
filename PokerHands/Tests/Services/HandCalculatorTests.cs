@@ -50,5 +50,23 @@ namespace PokerHands.Tests.Services
 
             response.ShouldBeEquivalentTo(expectedResponse);
         }
+
+        [Fact]
+        public void CalculatesTwoPair()
+        {
+            var playerHand = Card.ConvertToHandOfCards(
+                "2H 2D KC QD KS"
+            ).ToList();
+            var expectedResponse = new Hand
+            {
+                PlayedCards = playerHand.Where(card => card.Value == "K" || card.Value == "2").ToList(),
+                Score = 30,
+                Type = Hand.Types.TwoPair
+            };
+
+            var response = _calculator.BestHand(playerHand);
+
+            response.ShouldBeEquivalentTo(expectedResponse);
+        }
     }
 }

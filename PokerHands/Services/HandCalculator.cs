@@ -11,7 +11,7 @@ namespace PokerHands.Services
             var calculatedHands = new List<Hand>
             {
                 HighCard(playedCards),
-                Pair(playedCards)
+                Pairs(playedCards)
             };
 
             return calculatedHands.Aggregate((bestHand, nextHand) =>
@@ -35,9 +35,9 @@ namespace PokerHands.Services
             };
         }
 
-        private static Hand Pair(IEnumerable<Card> playedCards)
+        private static Hand Pairs(IEnumerable<Card> playedCards)
         {
-            var pair = playedCards
+            var pairGroups = playedCards
                 .GroupBy(card => card.Score)
                 .Where(grouping => grouping.Count() == 2)
                 .SelectMany(grouping => grouping)
@@ -45,9 +45,9 @@ namespace PokerHands.Services
 
             return new Hand
             {
-                PlayedCards = pair,
-                Score = pair.Sum(c => c.Score),
-                Type = Hand.Types.Pair
+                PlayedCards = pairGroups,
+                Score = pairGroups.Sum(c => c.Score),
+                Type = pairGroups.Count == 2 ? Hand.Types.Pair : Hand.Types.TwoPair
             };
         }
     }
