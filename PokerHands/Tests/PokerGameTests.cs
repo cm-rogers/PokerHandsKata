@@ -104,6 +104,21 @@ namespace PokerHands.Tests
 
             response.Should().Be(expectedOutput);
         }
+
+        [Fact]
+        public void TwoPairBeatsPair()
+        {
+            var player1 = new Player { Name = P1Name, Hand = "KH 3D QS QC KD" };
+            var player2 = new Player { Name = P2Name, Hand = "2C 3H 3S 2C AH" };
+            var expectedOutput = GenerateOutputForExpectedWinner(
+                player1.Name,
+                Hand.Types.TwoPair,
+                50);
+
+            var response = _pokerGame.PlayCards(player1, player2);
+
+            response.Should().Be(expectedOutput);
+        }
     }
 
     internal class PokerGameShared
