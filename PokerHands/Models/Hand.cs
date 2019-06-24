@@ -12,7 +12,8 @@ namespace PokerHands.Models
         public enum Types
         {
             HighCard = 0,
-            Pair = 1
+            Pair = 1,
+            TwoPair = 2,
         }
     }
 }
