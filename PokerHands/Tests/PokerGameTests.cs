@@ -1,15 +1,13 @@
 using FluentAssertions;
 using PokerHands.Models;
 using Xunit;
+using static PokerHands.Tests.PokerGameShared;
 
 namespace PokerHands.Tests
 {
     public class PokerGameTests
     {
         private readonly PokerGame _pokerGame;
-
-        private const string P1Name = "Alice";
-        private const string P2Name = "Frank";
 
         public PokerGameTests()
         {
@@ -81,12 +79,22 @@ namespace PokerHands.Tests
 
             response.Should().Be(expectedOutput);
         }
+    }
+
+    public class PokerGameHandTypeTests
+    {
+        private readonly PokerGame _pokerGame;
+
+        public PokerGameHandTypeTests()
+        {
+            _pokerGame = new PokerGame();
+        }
 
         [Fact]
         public void PairBeatsHighCard()
         {
-            var player1 = new Player {Name = "Alice", Hand = "2H 3D 5S QC KD"};
-            var player2 = new Player {Name = "Frank", Hand = "2C 3H 5S AC AH"};
+            var player1 = new Player { Name = P1Name, Hand = "2H 3D 5S QC KD" };
+            var player2 = new Player { Name = P2Name, Hand = "2C 3H 5S AC AH" };
             var expectedOutput = GenerateOutputForExpectedWinner(
                 player2.Name,
                 Hand.Types.Pair,
@@ -96,8 +104,14 @@ namespace PokerHands.Tests
 
             response.Should().Be(expectedOutput);
         }
+    }
 
-        private static string GenerateOutputForExpectedWinner(
+    internal class PokerGameShared
+    {
+        public const string P1Name = "Alice";
+        public const string P2Name = "Frank";
+
+        public static string GenerateOutputForExpectedWinner(
             string playerName,
             Hand.Types handType,
             int handScore
