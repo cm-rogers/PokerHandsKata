@@ -79,6 +79,28 @@ namespace PokerHands.Tests
 
             response.Should().Be(expectedOutput);
         }
+
+        [Theory]
+        [InlineData("KH AD KS AC KD", "2C 2H 3S 2C AH", P1Name, 39)]
+        [InlineData("2C 3H 3S 2S AH", "KH AD AS AC KD", P2Name, 42)]
+        public void ReturnsTheNameOfThePlayerWhoWonThreeOfAKind(
+            string p1Hand,
+            string p2Hand,
+            string expectedWinnerName,
+            int expectedWinnerScore
+        )
+        {
+            var player1 = new Player {Name = P1Name, Hand = p1Hand};
+            var player2 = new Player {Name = P2Name, Hand = p2Hand};
+            var expectedOutput = GenerateOutputForExpectedWinner(
+                expectedWinnerName,
+                Hand.Types.ThreeOfAKind,
+                expectedWinnerScore);
+
+            var response = _pokerGame.PlayCards(player1, player2);
+
+            response.Should().Be(expectedOutput);
+        }
     }
 
     public class PokerGameHandTypeTests
