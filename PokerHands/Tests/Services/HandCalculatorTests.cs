@@ -1,4 +1,4 @@
-﻿using System.Linq;
+using System.Linq;
 using FluentAssertions;
 using PokerHands.Models;
 using PokerHands.Services;
@@ -30,7 +30,7 @@ namespace PokerHands.Tests.Services
 
             var response = _calculator.BestHand(playerHand);
 
-            response.ShouldBeEquivalentTo(expectedResponse);
+            response.Should().BeEquivalentTo(expectedResponse);
         }
 
         [Fact]
@@ -48,7 +48,7 @@ namespace PokerHands.Tests.Services
 
             var response = _calculator.BestHand(playerHand);
 
-            response.ShouldBeEquivalentTo(expectedResponse);
+            response.Should().BeEquivalentTo(expectedResponse);
         }
 
         [Fact]
@@ -66,7 +66,7 @@ namespace PokerHands.Tests.Services
 
             var response = _calculator.BestHand(playerHand);
 
-            response.ShouldBeEquivalentTo(expectedResponse);
+            response.Should().BeEquivalentTo(expectedResponse);
         }
 
         [Fact]
@@ -84,7 +84,7 @@ namespace PokerHands.Tests.Services
 
             var response = _calculator.BestHand(playerHand);
 
-            response.ShouldBeEquivalentTo(expectedResponse);
+            response.Should().BeEquivalentTo(expectedResponse);
         }
     }
 }
