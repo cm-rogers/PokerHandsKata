@@ -68,5 +68,23 @@ namespace PokerHands.Tests.Services
 
             response.ShouldBeEquivalentTo(expectedResponse);
         }
+
+        [Fact]
+        public void CalculatesThreeOfAKind()
+        {
+            var playerHand = Card.ConvertToHandOfCards(
+                "2H 2D 2C QD KS"
+            ).ToList();
+            var expectedResponse = new Hand
+            {
+                PlayedCards = playerHand.Where(card => card.Value == "2").ToList(),
+                Score = 6,
+                Type = Hand.Types.ThreeOfAKind
+            };
+
+            var response = _calculator.BestHand(playerHand);
+
+            response.ShouldBeEquivalentTo(expectedResponse);
+        }
     }
 }

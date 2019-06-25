@@ -11,7 +11,8 @@ namespace PokerHands.Services
             var calculatedHands = new List<Hand>
             {
                 HighCard(playedCards),
-                Pairs(playedCards)
+                Pairs(playedCards),
+                ThreeOfAKind(playedCards)
             };
 
             return calculatedHands.Aggregate((bestHand, nextHand) =>
@@ -37,7 +38,7 @@ namespace PokerHands.Services
 
         private static Hand Pairs(IEnumerable<Card> playedCards)
         {
-            var pairGroups = playedCards
+            var cardGroups = playedCards
                 .GroupBy(card => card.Score)
                 .Where(grouping => grouping.Count() == 2)
                 .SelectMany(grouping => grouping)
@@ -45,9 +46,25 @@ namespace PokerHands.Services
 
             return new Hand
             {
-                PlayedCards = pairGroups,
-                Score = pairGroups.Sum(c => c.Score),
-                Type = pairGroups.Count == 2 ? Hand.Types.Pair : Hand.Types.TwoPair
+                PlayedCards = cardGroups,
+                Score = cardGroups.Sum(c => c.Score),
+                Type = cardGroups.Count == 2 ? Hand.Types.Pair : Hand.Types.TwoPair
+            };
+        }
+
+        private static Hand ThreeOfAKind(IEnumerable<Card> playedCards)
+        {
+            var cardGroups = playedCards
+                .GroupBy(card => card.Score)
+                .Where(grouping => grouping.Count() == 3)
+                .SelectMany(grouping => grouping)
+                .ToList();
+
+            return new Hand
+            {
+                PlayedCards = cardGroups,
+                Score = cardGroups.Sum(c => c.Score),
+                Type = Hand.Types.ThreeOfAKind
             };
         }
     }
