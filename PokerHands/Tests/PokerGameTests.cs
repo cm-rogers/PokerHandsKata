@@ -114,7 +114,7 @@ namespace PokerHands.Tests
 
         [Theory]
         [InlineData("KH 3D QS QC KD", "2C 3H 3S 2C AH", P1Name, 50)]
-        [InlineData("2C 3H 3S 2C AH", "KH AD AS QC KD", P2Name, 54)]
+        [InlineData("2C 3H 3S 2S AH", "KH AD AS QC KD", P2Name, 54)]
         public void TwoPairBeatsPair(
             string p1Hand,
             string p2Hand,
