@@ -163,12 +163,21 @@ namespace PokerHands.Tests.Services
         }
 
         [Fact]
-        public void FourOfAKindBeatsStraight()
+        public void FlushBeatsStraight()
         {
-            const int straight = (int)Hand.Types.Straight;
+            const int straight = (int) Hand.Types.Straight;
+            const int flush = (int) Hand.Types.Flush;
+
+            flush.Should().BeGreaterThan(straight);
+        }
+
+        [Fact]
+        public void FourOfAKindBeatsFlush()
+        {
+            const int flush = (int)Hand.Types.Flush;
             const int fourOfAKind = (int)Hand.Types.FourOfAKind;
 
-            fourOfAKind.Should().BeGreaterThan(straight);
+            fourOfAKind.Should().BeGreaterThan(flush);
         }
     }
 }

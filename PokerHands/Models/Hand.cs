@@ -16,6 +16,7 @@ namespace PokerHands.Models
             TwoPair = 2,
             ThreeOfAKind = 3,
             Straight = 4,
+            Flush = 5,
             FourOfAKind = 7,
         }
     }
