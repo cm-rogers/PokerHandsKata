@@ -15,7 +15,7 @@ namespace PokerHands.Tests.Services
 
             var playerHand = new PlayerHand(player);
 
-            playerHand.Player.ShouldBeEquivalentTo(player);
+            playerHand.Player.Should().BeEquivalentTo(player);
         }
 
         [Fact]
@@ -28,8 +28,7 @@ namespace PokerHands.Tests.Services
 
             var playerHand = new PlayerHand(player);
 
-            playerHand.Best
-                .ShouldBeEquivalentTo(expectedOutcome);
+            playerHand.Best.Should().BeEquivalentTo(expectedOutcome);
         }
     }
 }

@@ -29,7 +29,7 @@ namespace PokerHands.Tests.Services
 
             var deck = Card.Deck;
 
-            deck.ShouldBeEquivalentTo(expectedDeck);
+            deck.Should().BeEquivalentTo(expectedDeck);
         }
 
         [Fact]
@@ -47,7 +47,7 @@ namespace PokerHands.Tests.Services
 
             var convertedCards = Card.ConvertToHandOfCards(hand);
 
-            convertedCards.ShouldBeEquivalentTo(expectedCards);
+            convertedCards.Should().BeEquivalentTo(expectedCards);
         }
     }
 }

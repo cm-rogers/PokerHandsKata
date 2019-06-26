@@ -11,7 +11,9 @@ namespace PokerHands.Services
             var calculatedHands = new List<Hand>
             {
                 HighCard(playedCards),
-                Pairs(playedCards)
+                Pairs(playedCards),
+                ThreeOfAKind(playedCards),
+                FourOfAKind(playedCards),
             };
 
             return calculatedHands.Aggregate((bestHand, nextHand) =>
@@ -37,18 +39,50 @@ namespace PokerHands.Services
 
         private static Hand Pairs(IEnumerable<Card> playedCards)
         {
-            var pairGroups = playedCards
-                .GroupBy(card => card.Score)
-                .Where(grouping => grouping.Count() == 2)
-                .SelectMany(grouping => grouping)
-                .ToList();
+            const int wantedCountOfCardsInGroup = 2;
+            var cardGroups = CardGroups(playedCards, wantedCountOfCardsInGroup);
 
             return new Hand
             {
-                PlayedCards = pairGroups,
-                Score = pairGroups.Sum(c => c.Score),
-                Type = pairGroups.Count == 2 ? Hand.Types.Pair : Hand.Types.TwoPair
+                PlayedCards = cardGroups,
+                Score = cardGroups.Sum(c => c.Score),
+                Type = cardGroups.Count == 2 ? Hand.Types.Pair : Hand.Types.TwoPair
             };
+        }
+
+        private static Hand ThreeOfAKind(IEnumerable<Card> playedCards)
+        {
+            const int wantedCountOfCardsInGroup = 3;
+            var cardGroups = CardGroups(playedCards, wantedCountOfCardsInGroup);
+
+            return new Hand
+            {
+                PlayedCards = cardGroups,
+                Score = cardGroups.Sum(c => c.Score),
+                Type = Hand.Types.ThreeOfAKind
+            };
+        }
+
+        private static Hand FourOfAKind(IEnumerable<Card> playedCards)
+        {
+            const int wantedCountOfCardsInGroup = 4;
+            var cardGroups = CardGroups(playedCards, wantedCountOfCardsInGroup);
+
+            return new Hand
+            {
+                PlayedCards = cardGroups,
+                Score = cardGroups.Sum(c => c.Score),
+                Type = Hand.Types.FourOfAKind
+            };
+        }
+
+        private static List<Card> CardGroups(IEnumerable<Card> playedCards, int wantedCountOfCardsInGroup)
+        {
+            return playedCards
+                .GroupBy(card => card.Score)
+                .Where(grouping => grouping.Count() == wantedCountOfCardsInGroup)
+                .SelectMany(grouping => grouping)
+                .ToList();
         }
     }
 }
