@@ -1,13 +1,15 @@
 using FluentAssertions;
 using PokerHands.Models;
 using Xunit;
-using static PokerHands.Tests.PokerGameShared;
 
 namespace PokerHands.Tests
 {
     public class PokerGameTests
     {
         private readonly PokerGame _pokerGame;
+
+        public const string P1Name = "Alice";
+        public const string P2Name = "Frank";
 
         public PokerGameTests()
         {
@@ -101,12 +103,6 @@ namespace PokerHands.Tests
 
             response.Should().Be(expectedOutput);
         }
-    }
-
-    internal class PokerGameShared
-    {
-        public const string P1Name = "Alice";
-        public const string P2Name = "Frank";
 
         public static string GenerateOutputForExpectedWinner(
             string playerName,
