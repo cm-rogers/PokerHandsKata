@@ -39,11 +39,8 @@ namespace PokerHands.Services
 
         private static Hand Pairs(IEnumerable<Card> playedCards)
         {
-            var cardGroups = playedCards
-                .GroupBy(card => card.Score)
-                .Where(grouping => grouping.Count() == 2)
-                .SelectMany(grouping => grouping)
-                .ToList();
+            const int wantedCountOfCardsInGroup = 2;
+            var cardGroups = CardGroups(playedCards, wantedCountOfCardsInGroup);
 
             return new Hand
             {
@@ -55,11 +52,8 @@ namespace PokerHands.Services
 
         private static Hand ThreeOfAKind(IEnumerable<Card> playedCards)
         {
-            var cardGroups = playedCards
-                .GroupBy(card => card.Score)
-                .Where(grouping => grouping.Count() == 3)
-                .SelectMany(grouping => grouping)
-                .ToList();
+            const int wantedCountOfCardsInGroup = 3;
+            var cardGroups = CardGroups(playedCards, wantedCountOfCardsInGroup);
 
             return new Hand
             {
@@ -71,11 +65,8 @@ namespace PokerHands.Services
 
         private static Hand FourOfAKind(IEnumerable<Card> playedCards)
         {
-            var cardGroups = playedCards
-                .GroupBy(card => card.Score)
-                .Where(grouping => grouping.Count() == 4)
-                .SelectMany(grouping => grouping)
-                .ToList();
+            const int wantedCountOfCardsInGroup = 4;
+            var cardGroups = CardGroups(playedCards, wantedCountOfCardsInGroup);
 
             return new Hand
             {
@@ -83,6 +74,15 @@ namespace PokerHands.Services
                 Score = cardGroups.Sum(c => c.Score),
                 Type = Hand.Types.FourOfAKind
             };
+        }
+
+        private static List<Card> CardGroups(IEnumerable<Card> playedCards, int wantedCountOfCardsInGroup)
+        {
+            return playedCards
+                .GroupBy(card => card.Score)
+                .Where(grouping => grouping.Count() == wantedCountOfCardsInGroup)
+                .SelectMany(grouping => grouping)
+                .ToList();
         }
     }
 }
