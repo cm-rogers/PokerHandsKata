@@ -143,5 +143,14 @@ namespace PokerHands.Tests.Services
 
             fourOfAKind.Should().BeGreaterThan(threeOfAKind);
         }
+
+        [Fact]
+        public void StraightBeatsFourOfAKind()
+        {
+            const int fourOfAKind = (int)Hand.Types.FourOfAKind;
+            const int straight = (int)Hand.Types.Straight;
+
+            straight.Should().BeGreaterThan(fourOfAKind);
+        }
     }
 }
