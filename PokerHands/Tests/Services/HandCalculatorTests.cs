@@ -86,17 +86,28 @@ namespace PokerHands.Tests.Services
 
             response.Should().BeEquivalentTo(expectedResponse);
         }
+
+        [Fact]
+        public void CalculatesFourOfAKind()
+        {
+            var playerHand = Card.ConvertToHandOfCards(
+                "2H 2D 2C QD 2S"
+            ).ToList();
+            var expectedResponse = new Hand
+            {
+                PlayedCards = playerHand.Where(card => card.Value == "2").ToList(),
+                Score = 8,
+                Type = Hand.Types.FourOfAKind
+            };
+
+            var response = _calculator.BestHand(playerHand);
+
+            response.Should().BeEquivalentTo(expectedResponse);
+        }
     }
 
     public class HandCalculatorTypeTests
     {
-        private readonly HandCalculator _calculator;
-
-        public HandCalculatorTypeTests()
-        {
-            _calculator = new HandCalculator();
-        }
-
         [Fact]
         public void PairBeatsHighCard()
         {
@@ -122,6 +133,15 @@ namespace PokerHands.Tests.Services
             const int threeOfAKind = (int) Hand.Types.ThreeOfAKind;
 
             threeOfAKind.Should().BeGreaterThan(twoPair);
+        }
+
+        [Fact]
+        public void FourOfAKindBeatsThreeOfAKind()
+        {
+            const int threeOfAKind = (int)Hand.Types.ThreeOfAKind;
+            const int fourOfAKind = (int)Hand.Types.FourOfAKind;
+
+            fourOfAKind.Should().BeGreaterThan(threeOfAKind);
         }
     }
 }

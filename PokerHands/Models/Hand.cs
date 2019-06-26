@@ -15,6 +15,7 @@ namespace PokerHands.Models
             Pair = 1,
             TwoPair = 2,
             ThreeOfAKind = 3,
+            FourOfAKind = 4,
         }
     }
 }
