@@ -14,6 +14,7 @@ namespace PokerHands.Services
                 Pairs(playedCards),
                 ThreeOfAKind(playedCards),
                 FourOfAKind(playedCards),
+                Straight(playedCards),
             };
 
             return calculatedHands.Aggregate((bestHand, nextHand) =>
@@ -73,6 +74,37 @@ namespace PokerHands.Services
                 PlayedCards = cardGroups,
                 Score = cardGroups.Sum(c => c.Score),
                 Type = Hand.Types.FourOfAKind
+            };
+        }
+
+        private static Hand Straight(IEnumerable<Card> playedCards)
+        {
+            Card lastCard = null;
+
+            var sequential = playedCards.OrderBy(card => card.Score)
+                .Where(card =>
+                {
+                    if (lastCard == null)
+                    {
+                        lastCard = card;
+                        return true;
+                    }
+
+                    if (card.Score - 1 == lastCard.Score)
+                    {
+                        lastCard = card;
+                        return true;
+                    }
+
+                    lastCard = card;
+                    return false;
+                }).ToList();
+
+            return new Hand
+            {
+                PlayedCards = sequential.Count() == 5 ? sequential : new Card[0].ToList(),
+                Score = sequential.Sum(c => c.Score),
+                Type = Hand.Types.Straight
             };
         }
 

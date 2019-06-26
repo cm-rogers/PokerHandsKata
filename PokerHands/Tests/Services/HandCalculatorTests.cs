@@ -104,6 +104,24 @@ namespace PokerHands.Tests.Services
 
             response.Should().BeEquivalentTo(expectedResponse);
         }
+
+        [Fact]
+        public void CalculatesStraight()
+        {
+            var playerHand = Card.ConvertToHandOfCards(
+                "3H 4D 6C 5D 7S"
+            ).ToList();
+            var expectedResponse = new Hand
+            {
+                PlayedCards = playerHand.OrderBy(card => card.Score),
+                Score = 25,
+                Type = Hand.Types.Straight
+            };
+
+            var response = _calculator.BestHand(playerHand);
+
+            response.Should().BeEquivalentTo(expectedResponse);
+        }
     }
 
     public class HandCalculatorTypeTests
@@ -136,12 +154,21 @@ namespace PokerHands.Tests.Services
         }
 
         [Fact]
-        public void FourOfAKindBeatsThreeOfAKind()
+        public void StraightBeatsThreeOfAKind()
         {
             const int threeOfAKind = (int)Hand.Types.ThreeOfAKind;
+            const int straight = (int)Hand.Types.Straight;
+
+            straight.Should().BeGreaterThan(threeOfAKind);
+        }
+
+        [Fact]
+        public void FourOfAKindBeatsStraight()
+        {
+            const int straight = (int)Hand.Types.Straight;
             const int fourOfAKind = (int)Hand.Types.FourOfAKind;
 
-            fourOfAKind.Should().BeGreaterThan(threeOfAKind);
+            fourOfAKind.Should().BeGreaterThan(straight);
         }
     }
 }
