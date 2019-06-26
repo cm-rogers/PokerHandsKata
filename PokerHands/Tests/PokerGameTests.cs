@@ -126,6 +126,28 @@ namespace PokerHands.Tests
             response.Should().Be(expectedOutput);
         }
 
+        [Theory]
+        [InlineData("3H 4D 6C 5D 7S", "2H 3D 4C 5D 6S", P1Name, 25)]
+        [InlineData("AH AD AS AC KD", "2H 3D 4C 5D 6S", P2Name, 20)]
+        public void ReturnsTheNameOfThePlayerWhoWonAStraight(
+            string p1Hand,
+            string p2Hand,
+            string expectedWinnerName,
+            int expectedWinnerScore
+        )
+        {
+            var player1 = new Player {Name = P1Name, Hand = p1Hand};
+            var player2 = new Player {Name = P2Name, Hand = p2Hand};
+            var expectedOutput = GenerateOutputForExpectedWinner(
+                expectedWinnerName,
+                Hand.Types.Straight,
+                expectedWinnerScore);
+
+            var response = _pokerGame.PlayCards(player1, player2);
+
+            response.Should().Be(expectedOutput);
+        }
+
         public static string GenerateOutputForExpectedWinner(
             string playerName,
             Hand.Types handType,
