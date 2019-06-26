@@ -79,54 +79,22 @@ namespace PokerHands.Tests
 
             response.Should().Be(expectedOutput);
         }
-    }
-
-    public class PokerGameHandTypeTests
-    {
-        private readonly PokerGame _pokerGame;
-
-        public PokerGameHandTypeTests()
-        {
-            _pokerGame = new PokerGame();
-        }
 
         [Theory]
-        [InlineData("2H 3D 5S QC KD", "2C 3H 5S AC AH", P2Name, 28)]
-        [InlineData("KH 3D 5S 4C KD", "2C 3H 5S KC QH", P1Name, 26)]
-        public void PairBeatsHighCard(
+        [InlineData("KH AD KS AC KD", "2C 2H 3S 2C AH", P1Name, 39)]
+        [InlineData("2C 3H 3S 2S AH", "KH AD AS AC KD", P2Name, 42)]
+        public void ReturnsTheNameOfThePlayerWhoWonThreeOfAKind(
             string p1Hand,
             string p2Hand,
             string expectedWinnerName,
             int expectedWinnerScore
         )
         {
-            var player1 = new Player { Name = P1Name, Hand = p1Hand };
-            var player2 = new Player { Name = P2Name, Hand = p2Hand };
+            var player1 = new Player {Name = P1Name, Hand = p1Hand};
+            var player2 = new Player {Name = P2Name, Hand = p2Hand};
             var expectedOutput = GenerateOutputForExpectedWinner(
                 expectedWinnerName,
-                Hand.Types.Pair,
-                expectedWinnerScore);
-
-            var response = _pokerGame.PlayCards(player1, player2);
-
-            response.Should().Be(expectedOutput);
-        }
-
-        [Theory]
-        [InlineData("KH 3D QS QC KD", "2C 3H 3S 2C AH", P1Name, 50)]
-        [InlineData("2C 3H 3S 2C AH", "KH AD AS QC KD", P2Name, 54)]
-        public void TwoPairBeatsPair(
-            string p1Hand,
-            string p2Hand,
-            string expectedWinnerName,
-            int expectedWinnerScore
-        )
-        {
-            var player1 = new Player { Name = P1Name, Hand = p1Hand };
-            var player2 = new Player { Name = P2Name, Hand = p2Hand };
-            var expectedOutput = GenerateOutputForExpectedWinner(
-                expectedWinnerName,
-                Hand.Types.TwoPair,
+                Hand.Types.ThreeOfAKind,
                 expectedWinnerScore);
 
             var response = _pokerGame.PlayCards(player1, player2);

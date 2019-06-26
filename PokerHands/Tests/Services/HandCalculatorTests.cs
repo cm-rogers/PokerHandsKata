@@ -30,7 +30,7 @@ namespace PokerHands.Tests.Services
 
             var response = _calculator.BestHand(playerHand);
 
-            response.ShouldBeEquivalentTo(expectedResponse);
+            response.Should().BeEquivalentTo(expectedResponse);
         }
 
         [Fact]
@@ -48,7 +48,7 @@ namespace PokerHands.Tests.Services
 
             var response = _calculator.BestHand(playerHand);
 
-            response.ShouldBeEquivalentTo(expectedResponse);
+            response.Should().BeEquivalentTo(expectedResponse);
         }
 
         [Fact]
@@ -66,7 +66,62 @@ namespace PokerHands.Tests.Services
 
             var response = _calculator.BestHand(playerHand);
 
-            response.ShouldBeEquivalentTo(expectedResponse);
+            response.Should().BeEquivalentTo(expectedResponse);
+        }
+
+        [Fact]
+        public void CalculatesThreeOfAKind()
+        {
+            var playerHand = Card.ConvertToHandOfCards(
+                "2H 2D 2C QD KS"
+            ).ToList();
+            var expectedResponse = new Hand
+            {
+                PlayedCards = playerHand.Where(card => card.Value == "2").ToList(),
+                Score = 6,
+                Type = Hand.Types.ThreeOfAKind
+            };
+
+            var response = _calculator.BestHand(playerHand);
+
+            response.Should().BeEquivalentTo(expectedResponse);
+        }
+    }
+
+    public class HandCalculatorTypeTests
+    {
+        private readonly HandCalculator _calculator;
+
+        public HandCalculatorTypeTests()
+        {
+            _calculator = new HandCalculator();
+        }
+
+        [Fact]
+        public void PairBeatsHighCard()
+        {
+            const int highCard = (int)Hand.Types.HighCard;
+            const int pair = (int)Hand.Types.Pair;
+
+            pair.Should().BeGreaterThan(highCard);
+        }
+
+        [Fact]
+        public void TwoPairBeatsPair()
+        {
+            const int pair = (int) Hand.Types.Pair;
+            const int twoPair = (int) Hand.Types.TwoPair;
+
+            twoPair.Should().BeGreaterThan(pair);
+        }
+
+        [Fact]
+        public void ThreeOfAKindBeatsTwoPair()
+        {
+            const int twoPair = (int) Hand.Types.TwoPair;
+            const int threeOfAKind = (int) Hand.Types.ThreeOfAKind;
+
+            threeOfAKind.Should().BeGreaterThan(twoPair);
         }
     }
 }
