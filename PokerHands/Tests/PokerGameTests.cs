@@ -128,7 +128,7 @@ namespace PokerHands.Tests
 
         [Theory]
         [InlineData("3H 4D 6C 5D 7S", "2H 3D 4C 5D 6S", P1Name, 25)]
-        [InlineData("AH AD AS AC KD", "2H 3D 4C 5D 6S", P2Name, 20)]
+        [InlineData("AH AD 6S AC KD", "6H 3D 2C 5D 4S", P2Name, 20)]
         public void ReturnsTheNameOfThePlayerWhoWonAStraight(
             string p1Hand,
             string p2Hand,
