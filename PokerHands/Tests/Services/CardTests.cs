@@ -38,11 +38,11 @@ namespace PokerHands.Tests.Services
             const string hand = "2H 3D 3C KD 5S";
             var expectedCards = new List<Card>
             {
-                new Card {Score = 2, Value = "2"},
-                new Card {Score = 3, Value = "3"},
-                new Card {Score = 3, Value = "3"},
-                new Card {Score = 13, Value = "K"},
-                new Card {Score = 5, Value = "5"}
+                new Card {Score = 2, Suit = Card.Suits.Hearts, Value = "2"},
+                new Card {Score = 3, Suit = Card.Suits.Diamonds, Value = "3"},
+                new Card {Score = 3, Suit = Card.Suits.Clubs, Value = "3"},
+                new Card {Score = 13, Suit = Card.Suits.Diamonds, Value = "K"},
+                new Card {Score = 5, Suit = Card.Suits.Spades, Value = "5"}
             };
 
             var convertedCards = Card.ConvertToHandOfCards(hand);

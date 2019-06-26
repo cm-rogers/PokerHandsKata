@@ -88,24 +88,6 @@ namespace PokerHands.Tests.Services
         }
 
         [Fact]
-        public void CalculatesFourOfAKind()
-        {
-            var playerHand = Card.ConvertToHandOfCards(
-                "2H 2D 2C QD 2S"
-            ).ToList();
-            var expectedResponse = new Hand
-            {
-                PlayedCards = playerHand.Where(card => card.Value == "2").ToList(),
-                Score = 8,
-                Type = Hand.Types.FourOfAKind
-            };
-
-            var response = _calculator.BestHand(playerHand);
-
-            response.Should().BeEquivalentTo(expectedResponse);
-        }
-
-        [Fact]
         public void CalculatesStraight()
         {
             var playerHand = Card.ConvertToHandOfCards(
@@ -116,6 +98,42 @@ namespace PokerHands.Tests.Services
                 PlayedCards = playerHand.OrderBy(card => card.Score),
                 Score = 25,
                 Type = Hand.Types.Straight
+            };
+
+            var response = _calculator.BestHand(playerHand);
+
+            response.Should().BeEquivalentTo(expectedResponse);
+        }
+
+        [Fact]
+        public void CalculatesFlush()
+        {
+            var playerHand = Card.ConvertToHandOfCards(
+                "3D 4D JD KD 8D"
+            ).ToList();
+            var expectedResponse = new Hand
+            {
+                PlayedCards = playerHand.OrderBy(card => card.Score),
+                Score = 25,
+                Type = Hand.Types.Flush
+            };
+
+            var response = _calculator.BestHand(playerHand);
+
+            response.Should().BeEquivalentTo(expectedResponse);
+        }
+
+        [Fact]
+        public void CalculatesFourOfAKind()
+        {
+            var playerHand = Card.ConvertToHandOfCards(
+                "2H 2D 2C QD 2S"
+            ).ToList();
+            var expectedResponse = new Hand
+            {
+                PlayedCards = playerHand.Where(card => card.Value == "2").ToList(),
+                Score = 8,
+                Type = Hand.Types.FourOfAKind
             };
 
             var response = _calculator.BestHand(playerHand);
