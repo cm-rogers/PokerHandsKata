@@ -12,7 +12,8 @@ namespace PokerHands.Services
             {
                 HighCard(playedCards),
                 Pairs(playedCards),
-                ThreeOfAKind(playedCards)
+                ThreeOfAKind(playedCards),
+                FourOfAKind(playedCards),
             };
 
             return calculatedHands.Aggregate((bestHand, nextHand) =>
@@ -65,6 +66,22 @@ namespace PokerHands.Services
                 PlayedCards = cardGroups,
                 Score = cardGroups.Sum(c => c.Score),
                 Type = Hand.Types.ThreeOfAKind
+            };
+        }
+
+        private static Hand FourOfAKind(IEnumerable<Card> playedCards)
+        {
+            var cardGroups = playedCards
+                .GroupBy(card => card.Score)
+                .Where(grouping => grouping.Count() == 4)
+                .SelectMany(grouping => grouping)
+                .ToList();
+
+            return new Hand
+            {
+                PlayedCards = cardGroups,
+                Score = cardGroups.Sum(c => c.Score),
+                Type = Hand.Types.FourOfAKind
             };
         }
     }
