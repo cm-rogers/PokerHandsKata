@@ -8,7 +8,6 @@ namespace PokerHands.Services
     {
         public string Value { get; set; }
         public int Score { get; set; }
-
         public Suits Suit { get; set; }
 
         public static IEnumerable<Card> Deck => MakeDeck();
@@ -35,9 +34,13 @@ namespace PokerHands.Services
         public static IEnumerable<Card> ConvertToHandOfCards(string hand)
         {
             return hand.Split(" ")
-                .Select(cardValue => Deck.First(card => card.Value == cardValue
-                    && card.Suit == StringToSuit(cardValue.Substring(1, 2))
-                ));
+                .Select(stringCard => Deck.First(card =>
+                {
+                    var valueAsString = stringCard.Substring(0, 1);
+                    var suitAsString = stringCard.Substring(1, 1);
+
+                    return card.Value == valueAsString && card.Suit == StringToSuit(suitAsString);
+                }));
         }
 
         private static Suits StringToSuit(string suit)

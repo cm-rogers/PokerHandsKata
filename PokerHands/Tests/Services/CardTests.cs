@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using FluentAssertions;
 using PokerHands.Services;
 using Xunit;
@@ -25,7 +26,13 @@ namespace PokerHands.Tests.Services
                 new Card {Score = 12, Value = "Q"},
                 new Card {Score = 13, Value = "K"},
                 new Card {Score = 14, Value = "A"}
-            };
+            }.SelectMany(card => new[]
+            {
+                new Card {Score = card.Score, Suit = Card.Suits.Clubs, Value = card.Value},
+                new Card {Score = card.Score, Suit = Card.Suits.Diamonds, Value = card.Value},
+                new Card {Score = card.Score, Suit = Card.Suits.Hearts, Value = card.Value},
+                new Card {Score = card.Score, Suit = Card.Suits.Spades, Value = card.Value}
+            });
 
             var deck = Card.Deck;
 
@@ -36,7 +43,7 @@ namespace PokerHands.Tests.Services
         public void ConstructsAnEnumerableOfCardsFromAString()
         {
             const string hand = "2H 3D 3C KD 5S";
-            var expectedCards = new List<Card>
+            IEnumerable<Card> expectedCards = new List<Card>
             {
                 new Card {Score = 2, Suit = Card.Suits.Hearts, Value = "2"},
                 new Card {Score = 3, Suit = Card.Suits.Diamonds, Value = "3"},
