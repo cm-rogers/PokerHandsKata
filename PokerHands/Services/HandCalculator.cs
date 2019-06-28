@@ -13,8 +13,8 @@ namespace PokerHands.Services
                 HighCard(playedCards),
                 Pairs(playedCards),
                 ThreeOfAKind(playedCards),
-                Flush(playedCards),
                 Straight(playedCards),
+                Flush(playedCards),
                 FourOfAKind(playedCards),
             };
             return calculatedHands.Aggregate((bestHand, nextHand) =>
@@ -97,8 +97,14 @@ namespace PokerHands.Services
 
         private static Hand Flush(List<Card> playedCards)
         {
-            var sameSuit = playedCards.All(card => card.Suit == playedCards[0].Suit);
-            return null;
+            var allCardsAreSameSuit = playedCards.All(card => card.Suit == playedCards[0].Suit);
+
+            return new Hand
+            {
+                PlayedCards = allCardsAreSameSuit ? playedCards : new Card[0].ToList(),
+                Score = playedCards.Sum(card => card.Score),
+                Type = Hand.Types.Flush
+            };
         }
 
         private static Hand FourOfAKind(IEnumerable<Card> playedCards)

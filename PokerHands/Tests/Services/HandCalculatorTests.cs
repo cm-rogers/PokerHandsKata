@@ -113,8 +113,8 @@ namespace PokerHands.Tests.Services
             ).ToList();
             var expectedResponse = new Hand
             {
-                PlayedCards = playerHand.OrderBy(card => card.Score),
-                Score = 25,
+                PlayedCards = playerHand,
+                Score = 39,
                 Type = Hand.Types.Flush
             };
 
