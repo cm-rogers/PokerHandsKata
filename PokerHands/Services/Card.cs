@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 
 namespace PokerHands.Services
@@ -7,6 +8,9 @@ namespace PokerHands.Services
     {
         public string Value { get; set; }
         public int Score { get; set; }
+
+        public Suits Suit { get; set; }
+
         public static IEnumerable<Card> Deck => MakeDeck();
 
         private static IEnumerable<Card> MakeDeck()
@@ -18,19 +22,59 @@ namespace PokerHands.Services
                 .Select(i => i.ToString())
                 .Concat(faceCards)
                 .ToList()
-                .Select((value, index) =>
-                    new Card {Value = value, Score = index + firstCardValue}
+                .SelectMany((value, index) => new[]
+                    {
+                        new Card {Score = index + firstCardValue, Suit = Suits.Clubs, Value = value},
+                        new Card {Score = index + firstCardValue, Suit = Suits.Diamonds, Value = value},
+                        new Card {Score = index + firstCardValue, Suit = Suits.Hearts, Value = value},
+                        new Card {Score = index + firstCardValue, Suit = Suits.Spades, Value = value}
+                    }
                 );
         }
 
         public static IEnumerable<Card> ConvertToHandOfCards(string hand)
         {
-            return hand.Split(" ")
-                // @TODO: Add suit back when testable
-                .Select(cardValue => cardValue.Substring(0, 1))
-                .SelectMany(handValue =>
-                    Deck.Where(c => c.Value == handValue)
-                );
+            return hand.Split(" ").Select(cardValue =>
+            {
+                var value = cardValue.Substring(0, 1);
+                var suit = cardValue.Substring(1, 1);
+
+                return Deck.First(card => card.Value == value && card.Suit == StringToSuit(suit));
+            });
+        }
+
+        private static Suits StringToSuit(string suit)
+        {
+            if (suit == "C")
+            {
+                return Suits.Clubs;
+            }
+
+            if (suit == "D")
+            {
+                return Suits.Diamonds;
+            }
+
+            if (suit == "H")
+            {
+                return Suits.Hearts;
+            }
+
+            if (suit == "S")
+            {
+                return Suits.Spades;
+            }
+
+            // @TODO: Test failure case
+            throw new InvalidEnumArgumentException($"'{suit}' is not a valid suit");
+        }
+
+        public enum Suits
+        {
+            Clubs,
+            Diamonds,
+            Hearts,
+            Spades
         }
     }
 }
