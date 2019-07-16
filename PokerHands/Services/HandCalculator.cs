@@ -98,7 +98,7 @@ namespace PokerHands.Services
         private static Hand Flush(List<Card> playedCards)
         {
             var sameSuit = playedCards.All(card => card.Suit == playedCards[0].Suit);
-            return null;
+            return new Hand();
         }
 
         private static Hand FourOfAKind(IEnumerable<Card> playedCards)
