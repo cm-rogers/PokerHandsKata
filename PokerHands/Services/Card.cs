@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
 
@@ -22,13 +23,9 @@ namespace PokerHands.Services
                 .Select(i => i.ToString())
                 .Concat(faceCards)
                 .ToList()
-                .SelectMany((value, index) => new[]
-                    {
-                        new Card {Score = index + firstCardValue, Suit = Suits.Clubs, Value = value},
-                        new Card {Score = index + firstCardValue, Suit = Suits.Diamonds, Value = value},
-                        new Card {Score = index + firstCardValue, Suit = Suits.Hearts, Value = value},
-                        new Card {Score = index + firstCardValue, Suit = Suits.Spades, Value = value}
-                    }
+                .SelectMany((value, index) => Enum.GetValues(typeof(Suits))
+                    .Cast<Suits>()
+                    .Select(suit => new Card {Score = index + firstCardValue, Suit = suit, Value = value})
                 );
         }
 
