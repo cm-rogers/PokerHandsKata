@@ -15,6 +15,7 @@ namespace PokerHands.Services
                 ThreeOfAKind(playedCards),
                 Straight(playedCards),
                 Flush(playedCards),
+                FullHouse(playedCards),
                 FourOfAKind(playedCards),
             };
             return calculatedHands.Aggregate((bestHand, nextHand) =>
@@ -104,6 +105,21 @@ namespace PokerHands.Services
                 PlayedCards = allCardsAreSameSuit ? playedCards : new Card[0].ToList(),
                 Score = playedCards.Sum(card => card.Score),
                 Type = Hand.Types.Flush
+            };
+        }
+
+        private static Hand FullHouse(List<Card> playedCards)
+        {
+            var threeOfAKind = ThreeOfAKind(playedCards);
+            var remainingCards = playedCards.Where(card => !threeOfAKind.PlayedCards.Contains(card));
+            var pair = Pairs(remainingCards);
+            var fullHouseCards = threeOfAKind.PlayedCards.Concat(pair.PlayedCards).ToList();
+
+            return new Hand
+            {
+                PlayedCards = fullHouseCards.SequenceEqual(playedCards) ? fullHouseCards : new Card[0].ToList(),
+                Score = playedCards.Sum(card => card.Score),
+                Type = Hand.Types.FullHouse
             };
         }
 

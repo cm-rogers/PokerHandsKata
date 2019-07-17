@@ -124,6 +124,24 @@ namespace PokerHands.Tests.Services
         }
 
         [Fact]
+        void CalculatesFullHouse()
+        {
+            var playerHand = Card.ConvertToHandOfCards(
+                "2H 2D 2C QD QS"
+            ).ToList();
+            var expectedResponse = new Hand
+            {
+                PlayedCards = playerHand,
+                Score = 30,
+                Type = Hand.Types.FullHouse
+            };
+
+            var response = _calculator.BestHand(playerHand);
+
+            response.Should().BeEquivalentTo(expectedResponse);
+        }
+
+        [Fact]
         public void CalculatesFourOfAKind()
         {
             var playerHand = Card.ConvertToHandOfCards(
@@ -196,6 +214,15 @@ namespace PokerHands.Tests.Services
             const int fourOfAKind = (int)Hand.Types.FourOfAKind;
 
             fourOfAKind.Should().BeGreaterThan(flush);
+        }
+
+        [Fact]
+        public void FullHouseBeatsFourOfAKind()
+        {
+            const int fourOfAKind = (int)Hand.Types.Flush;
+            const int fullHouse = (int)Hand.Types.FullHouse;
+
+            fullHouse.Should().BeGreaterThan(fourOfAKind);
         }
     }
 }
