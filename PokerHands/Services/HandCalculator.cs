@@ -17,6 +17,7 @@ namespace PokerHands.Services
                 Flush(playedCards),
                 FullHouse(playedCards),
                 FourOfAKind(playedCards),
+                StraightFlush(playedCards)
             };
             return calculatedHands.Aggregate((bestHand, nextHand) =>
                 nextHand.Type > bestHand.Type && nextHand.PlayedCards.Any()
@@ -90,7 +91,7 @@ namespace PokerHands.Services
 
             return new Hand
             {
-                PlayedCards = sequential.Count() == 5 ? sequential : new Card[0].ToList(),
+                PlayedCards = sequential.Count() == 5 ? sequential : new List<Card>(),
                 Score = sequential.Sum(c => c.Score),
                 Type = Hand.Types.Straight
             };
@@ -102,7 +103,7 @@ namespace PokerHands.Services
 
             return new Hand
             {
-                PlayedCards = allCardsAreSameSuit ? playedCards : new Card[0].ToList(),
+                PlayedCards = allCardsAreSameSuit ? playedCards : new List<Card>(),
                 Score = playedCards.Sum(card => card.Score),
                 Type = Hand.Types.Flush
             };
@@ -117,7 +118,7 @@ namespace PokerHands.Services
 
             return new Hand
             {
-                PlayedCards = fullHouseCards.SequenceEqual(playedCards) ? fullHouseCards : new Card[0].ToList(),
+                PlayedCards = fullHouseCards.SequenceEqual(playedCards) ? fullHouseCards : new List<Card>(),
                 Score = playedCards.Sum(card => card.Score),
                 Type = Hand.Types.FullHouse
             };
@@ -133,6 +134,19 @@ namespace PokerHands.Services
                 PlayedCards = cardGroups,
                 Score = cardGroups.Sum(c => c.Score),
                 Type = Hand.Types.FourOfAKind
+            };
+        }
+
+        private static Hand StraightFlush(List<Card> playedCards)
+        {
+            var isFlush = Flush(playedCards).PlayedCards.Any();
+            var isStraight = Straight(playedCards).PlayedCards.Any();
+
+            return new Hand
+            {
+                PlayedCards = isStraight && isFlush ? playedCards : new List<Card>(),
+                Score = playedCards.Sum(c => c.Score),
+                Type = Hand.Types.StraightFlush
             };
         }
 

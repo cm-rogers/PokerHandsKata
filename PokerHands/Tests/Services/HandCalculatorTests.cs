@@ -124,7 +124,7 @@ namespace PokerHands.Tests.Services
         }
 
         [Fact]
-        void CalculatesFullHouse()
+        public void CalculatesFullHouse()
         {
             var playerHand = Card.ConvertToHandOfCards(
                 "2H 2D 2C QD QS"
@@ -158,6 +158,24 @@ namespace PokerHands.Tests.Services
 
             response.Should().BeEquivalentTo(expectedResponse);
         }
+
+        [Fact]
+        public void CalculatesStraightFlush()
+        {
+            var playerHand = Card.ConvertToHandOfCards(
+                "5S 9S 6S 8S 7S"
+            ).ToList();
+            var expectedResponse = new Hand
+            {
+                PlayedCards = playerHand,
+                Score = 35,
+                Type = Hand.Types.StraightFlush
+            };
+
+            var response = _calculator.BestHand(playerHand);
+
+            response.Should().BeEquivalentTo(expectedResponse);
+        }
     }
 
     public class HandCalculatorTypeTests
@@ -165,8 +183,8 @@ namespace PokerHands.Tests.Services
         [Fact]
         public void PairBeatsHighCard()
         {
-            const int highCard = (int)Hand.Types.HighCard;
-            const int pair = (int)Hand.Types.Pair;
+            const int highCard = (int) Hand.Types.HighCard;
+            const int pair = (int) Hand.Types.Pair;
 
             pair.Should().BeGreaterThan(highCard);
         }
@@ -192,8 +210,8 @@ namespace PokerHands.Tests.Services
         [Fact]
         public void StraightBeatsThreeOfAKind()
         {
-            const int threeOfAKind = (int)Hand.Types.ThreeOfAKind;
-            const int straight = (int)Hand.Types.Straight;
+            const int threeOfAKind = (int) Hand.Types.ThreeOfAKind;
+            const int straight = (int) Hand.Types.Straight;
 
             straight.Should().BeGreaterThan(threeOfAKind);
         }
@@ -208,21 +226,30 @@ namespace PokerHands.Tests.Services
         }
 
         [Fact]
-        public void FourOfAKindBeatsFlush()
+        public void FullHouseBeatsFlush()
         {
-            const int flush = (int)Hand.Types.Flush;
-            const int fourOfAKind = (int)Hand.Types.FourOfAKind;
+            const int flush = (int) Hand.Types.Flush;
+            const int fullHouse = (int) Hand.Types.FullHouse;
 
-            fourOfAKind.Should().BeGreaterThan(flush);
+            fullHouse.Should().BeGreaterThan(flush);
         }
 
         [Fact]
-        public void FullHouseBeatsFourOfAKind()
+        public void FourOfAKindBeatsFullHouse()
         {
-            const int fourOfAKind = (int)Hand.Types.Flush;
-            const int fullHouse = (int)Hand.Types.FullHouse;
+            const int fullHouse = (int) Hand.Types.FullHouse;
+            const int fourOfAKind = (int) Hand.Types.FourOfAKind;
 
-            fullHouse.Should().BeGreaterThan(fourOfAKind);
+            fourOfAKind.Should().BeGreaterThan(fullHouse);
+        }
+
+        [Fact]
+        public void StraightFlushBeatsFourOfAKind()
+        {
+            const int straightFlush = (int) Hand.Types.StraightFlush;
+            const int fourOfAKind = (int) Hand.Types.FourOfAKind;
+
+            straightFlush.Should().BeGreaterThan(fourOfAKind);
         }
     }
 }
