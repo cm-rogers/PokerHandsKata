@@ -1,4 +1,4 @@
-﻿using System.Linq;
+using System.Linq;
 using FluentAssertions;
 using PokerHands.Models;
 using PokerHands.Services;
@@ -124,7 +124,7 @@ namespace PokerHands.Tests.Services
         }
 
         [Fact]
-        void CalculatesFullHouse()
+        private void CalculatesFullHouse()
         {
             var playerHand = Card.ConvertToHandOfCards(
                 "2H 2D 2C QD QS"
@@ -165,8 +165,8 @@ namespace PokerHands.Tests.Services
         [Fact]
         public void PairBeatsHighCard()
         {
-            const int highCard = (int)Hand.Types.HighCard;
-            const int pair = (int)Hand.Types.Pair;
+            const int highCard = (int) Hand.Types.HighCard;
+            const int pair = (int) Hand.Types.Pair;
 
             pair.Should().BeGreaterThan(highCard);
         }
@@ -192,8 +192,8 @@ namespace PokerHands.Tests.Services
         [Fact]
         public void StraightBeatsThreeOfAKind()
         {
-            const int threeOfAKind = (int)Hand.Types.ThreeOfAKind;
-            const int straight = (int)Hand.Types.Straight;
+            const int threeOfAKind = (int) Hand.Types.ThreeOfAKind;
+            const int straight = (int) Hand.Types.Straight;
 
             straight.Should().BeGreaterThan(threeOfAKind);
         }
@@ -210,8 +210,8 @@ namespace PokerHands.Tests.Services
         [Fact]
         public void FullHouseBeatsFlush()
         {
-            const int flush = (int)Hand.Types.Flush;
-            const int fullHouse = (int)Hand.Types.FullHouse;
+            const int flush = (int) Hand.Types.Flush;
+            const int fullHouse = (int) Hand.Types.FullHouse;
 
             fullHouse.Should().BeGreaterThan(flush);
         }
@@ -219,8 +219,8 @@ namespace PokerHands.Tests.Services
         [Fact]
         public void FourOfAKindBeatsFullHouse()
         {
-            const int fullHouse = (int)Hand.Types.FullHouse;
-            const int fourOfAKind = (int)Hand.Types.FourOfAKind;
+            const int fullHouse = (int) Hand.Types.FullHouse;
+            const int fourOfAKind = (int) Hand.Types.FourOfAKind;
 
             fourOfAKind.Should().BeGreaterThan(fullHouse);
         }
