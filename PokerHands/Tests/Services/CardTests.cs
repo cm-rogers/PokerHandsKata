@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using FluentAssertions;
 using PokerHands.Services;
@@ -55,6 +56,18 @@ namespace PokerHands.Tests.Services
             var convertedCards = Card.ConvertToHandOfCards(hand);
 
             convertedCards.Should().BeEquivalentTo(expectedCards);
+        }
+
+        [Fact]
+        public void PassingAnInvalidSuitThrows()
+        {
+            const string handWithInvalidSuits = "2Z 3G 3L KN 5I";
+
+            var convertedCards = Card.ConvertToHandOfCards(handWithInvalidSuits);
+
+            convertedCards.Invoking(Enumerable.ToList)
+                .Should().Throw<InvalidEnumArgumentException>()
+                .WithMessage("'Z' is not a valid suit");
         }
     }
 }
