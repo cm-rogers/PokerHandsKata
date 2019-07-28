@@ -1,4 +1,4 @@
-using System.Linq;
+﻿using System.Linq;
 using FluentAssertions;
 using PokerHands.Models;
 using PokerHands.Services;
@@ -124,7 +124,7 @@ namespace PokerHands.Tests.Services
         }
 
         [Fact]
-        private void CalculatesFullHouse()
+        public void CalculatesFullHouse()
         {
             var playerHand = Card.ConvertToHandOfCards(
                 "2H 2D 2C QD QS"
