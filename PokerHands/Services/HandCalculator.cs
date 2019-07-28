@@ -1,4 +1,4 @@
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using PokerHands.Models;
 
@@ -91,7 +91,7 @@ namespace PokerHands.Services
 
             return new Hand
             {
-                PlayedCards = sequential.Count() == 5 ? sequential : new Card[0].ToList(),
+                PlayedCards = sequential.Count() == 5 ? sequential : new List<Card>(),
                 Score = sequential.Sum(c => c.Score),
                 Type = Hand.Types.Straight
             };
@@ -103,7 +103,7 @@ namespace PokerHands.Services
 
             return new Hand
             {
-                PlayedCards = allCardsAreSameSuit ? playedCards : new Card[0].ToList(),
+                PlayedCards = allCardsAreSameSuit ? playedCards : new List<Card>(),
                 Score = playedCards.Sum(card => card.Score),
                 Type = Hand.Types.Flush
             };
@@ -118,7 +118,7 @@ namespace PokerHands.Services
 
             return new Hand
             {
-                PlayedCards = fullHouseCards.SequenceEqual(playedCards) ? fullHouseCards : new Card[0].ToList(),
+                PlayedCards = fullHouseCards.SequenceEqual(playedCards) ? fullHouseCards : new List<Card>(),
                 Score = playedCards.Sum(card => card.Score),
                 Type = Hand.Types.FullHouse
             };
