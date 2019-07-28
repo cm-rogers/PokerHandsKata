@@ -32,8 +32,9 @@ namespace PokerHands.Services
         {
             return hand.Split(" ").Select(stringCard =>
             {
-                var value = stringCard.Substring(0, 1);
-                var suit = stringCard.Substring(1, 1);
+                var valueLength = stringCard.Length - 1;
+                var value = stringCard.Substring(0, valueLength);
+                var suit = stringCard.Substring(valueLength, 1);
 
                 return Deck.First(card =>
                     card.Value == value && card.Suit == StringToSuit(suit)

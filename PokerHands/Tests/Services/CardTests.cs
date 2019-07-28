@@ -43,10 +43,10 @@ namespace PokerHands.Tests.Services
         [Fact]
         public void ConstructsAnEnumerableOfCardsFromAString()
         {
-            const string hand = "2H 3D 3C KD 5S";
+            const string hand = "10H 3D 3C KD 5S";
             IEnumerable<Card> expectedCards = new List<Card>
             {
-                new Card {Score = 2, Suit = Card.Suits.Hearts, Value = "2"},
+                new Card {Score = 10, Suit = Card.Suits.Hearts, Value = "10"},
                 new Card {Score = 3, Suit = Card.Suits.Diamonds, Value = "3"},
                 new Card {Score = 3, Suit = Card.Suits.Clubs, Value = "3"},
                 new Card {Score = 13, Suit = Card.Suits.Diamonds, Value = "K"},
