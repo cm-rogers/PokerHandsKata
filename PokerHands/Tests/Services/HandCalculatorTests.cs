@@ -88,24 +88,6 @@ namespace PokerHands.Tests.Services
         }
 
         [Fact]
-        public void CalculatesFourOfAKind()
-        {
-            var playerHand = Card.ConvertToHandOfCards(
-                "2H 2D 2C QD 2S"
-            ).ToList();
-            var expectedResponse = new Hand
-            {
-                PlayedCards = playerHand.Where(card => card.Value == "2").ToList(),
-                Score = 8,
-                Type = Hand.Types.FourOfAKind
-            };
-
-            var response = _calculator.BestHand(playerHand);
-
-            response.Should().BeEquivalentTo(expectedResponse);
-        }
-
-        [Fact]
         public void CalculatesStraight()
         {
             var playerHand = Card.ConvertToHandOfCards(
@@ -116,6 +98,60 @@ namespace PokerHands.Tests.Services
                 PlayedCards = playerHand.OrderBy(card => card.Score),
                 Score = 25,
                 Type = Hand.Types.Straight
+            };
+
+            var response = _calculator.BestHand(playerHand);
+
+            response.Should().BeEquivalentTo(expectedResponse);
+        }
+
+        [Fact]
+        public void CalculatesFlush()
+        {
+            var playerHand = Card.ConvertToHandOfCards(
+                "3D 4D JD KD 8D"
+            ).ToList();
+            var expectedResponse = new Hand
+            {
+                PlayedCards = playerHand,
+                Score = 39,
+                Type = Hand.Types.Flush
+            };
+
+            var response = _calculator.BestHand(playerHand);
+
+            response.Should().BeEquivalentTo(expectedResponse);
+        }
+
+        [Fact]
+        void CalculatesFullHouse()
+        {
+            var playerHand = Card.ConvertToHandOfCards(
+                "2H 2D 2C QD QS"
+            ).ToList();
+            var expectedResponse = new Hand
+            {
+                PlayedCards = playerHand,
+                Score = 30,
+                Type = Hand.Types.FullHouse
+            };
+
+            var response = _calculator.BestHand(playerHand);
+
+            response.Should().BeEquivalentTo(expectedResponse);
+        }
+
+        [Fact]
+        public void CalculatesFourOfAKind()
+        {
+            var playerHand = Card.ConvertToHandOfCards(
+                "2H 2D 2C QD 2S"
+            ).ToList();
+            var expectedResponse = new Hand
+            {
+                PlayedCards = playerHand.Where(card => card.Value == "2").ToList(),
+                Score = 8,
+                Type = Hand.Types.FourOfAKind
             };
 
             var response = _calculator.BestHand(playerHand);
@@ -163,12 +199,30 @@ namespace PokerHands.Tests.Services
         }
 
         [Fact]
-        public void FourOfAKindBeatsStraight()
+        public void FlushBeatsStraight()
         {
-            const int straight = (int)Hand.Types.Straight;
+            const int straight = (int) Hand.Types.Straight;
+            const int flush = (int) Hand.Types.Flush;
+
+            flush.Should().BeGreaterThan(straight);
+        }
+
+        [Fact]
+        public void FourOfAKindBeatsFlush()
+        {
+            const int flush = (int)Hand.Types.Flush;
             const int fourOfAKind = (int)Hand.Types.FourOfAKind;
 
-            fourOfAKind.Should().BeGreaterThan(straight);
+            fourOfAKind.Should().BeGreaterThan(flush);
+        }
+
+        [Fact]
+        public void FullHouseBeatsFourOfAKind()
+        {
+            const int fourOfAKind = (int)Hand.Types.Flush;
+            const int fullHouse = (int)Hand.Types.FullHouse;
+
+            fullHouse.Should().BeGreaterThan(fourOfAKind);
         }
     }
 }

@@ -13,10 +13,11 @@ namespace PokerHands.Services
                 HighCard(playedCards),
                 Pairs(playedCards),
                 ThreeOfAKind(playedCards),
-                FourOfAKind(playedCards),
                 Straight(playedCards),
+                Flush(playedCards),
+                FullHouse(playedCards),
+                FourOfAKind(playedCards),
             };
-
             return calculatedHands.Aggregate((bestHand, nextHand) =>
                 nextHand.Type > bestHand.Type && nextHand.PlayedCards.Any()
                     ? nextHand
@@ -64,19 +65,6 @@ namespace PokerHands.Services
             };
         }
 
-        private static Hand FourOfAKind(IEnumerable<Card> playedCards)
-        {
-            const int wantedCountOfCardsInGroup = 4;
-            var cardGroups = CardGroups(playedCards, wantedCountOfCardsInGroup);
-
-            return new Hand
-            {
-                PlayedCards = cardGroups,
-                Score = cardGroups.Sum(c => c.Score),
-                Type = Hand.Types.FourOfAKind
-            };
-        }
-
         private static Hand Straight(IEnumerable<Card> playedCards)
         {
             Card lastCard = null;
@@ -105,6 +93,46 @@ namespace PokerHands.Services
                 PlayedCards = sequential.Count() == 5 ? sequential : new Card[0].ToList(),
                 Score = sequential.Sum(c => c.Score),
                 Type = Hand.Types.Straight
+            };
+        }
+
+        private static Hand Flush(List<Card> playedCards)
+        {
+            var allCardsAreSameSuit = playedCards.All(card => card.Suit == playedCards[0].Suit);
+
+            return new Hand
+            {
+                PlayedCards = allCardsAreSameSuit ? playedCards : new Card[0].ToList(),
+                Score = playedCards.Sum(card => card.Score),
+                Type = Hand.Types.Flush
+            };
+        }
+
+        private static Hand FullHouse(List<Card> playedCards)
+        {
+            var threeOfAKind = ThreeOfAKind(playedCards);
+            var remainingCards = playedCards.Where(card => !threeOfAKind.PlayedCards.Contains(card));
+            var pair = Pairs(remainingCards);
+            var fullHouseCards = threeOfAKind.PlayedCards.Concat(pair.PlayedCards).ToList();
+
+            return new Hand
+            {
+                PlayedCards = fullHouseCards.SequenceEqual(playedCards) ? fullHouseCards : new Card[0].ToList(),
+                Score = playedCards.Sum(card => card.Score),
+                Type = Hand.Types.FullHouse
+            };
+        }
+
+        private static Hand FourOfAKind(IEnumerable<Card> playedCards)
+        {
+            const int wantedCountOfCardsInGroup = 4;
+            var cardGroups = CardGroups(playedCards, wantedCountOfCardsInGroup);
+
+            return new Hand
+            {
+                PlayedCards = cardGroups,
+                Score = cardGroups.Sum(c => c.Score),
+                Type = Hand.Types.FourOfAKind
             };
         }
 
