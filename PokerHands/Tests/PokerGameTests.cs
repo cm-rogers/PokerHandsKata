@@ -170,6 +170,29 @@ namespace PokerHands.Tests
             response.Should().Be(expectedOutput);
         }
 
+        // @TODO: Ensure there are no duplicate cards between the two players
+        [Theory]
+        [InlineData("5S 9S 6S 8S 7S", "5S 4S 2S 8S 6S", P1Name, 35)]
+        [InlineData("9H JH 10H QH KH", "AD QD 10D JD KD", P2Name, 60)]
+        public void ReturnsTheNameOfThePlayerWhoWonStraightFlush(
+            string p1Hand,
+            string p2Hand,
+            string expectedWinnerName,
+            int expectedWinnerScore
+        )
+        {
+            var player1 = new Player {Name = P1Name, Hand = p1Hand};
+            var player2 = new Player {Name = P2Name, Hand = p2Hand};
+            var expectedOutput = GenerateOutputForExpectedWinner(
+                expectedWinnerName,
+                Hand.Types.StraightFlush,
+                expectedWinnerScore);
+
+            var response = _pokerGame.PlayCards(player1, player2);
+
+            response.Should().Be(expectedOutput);
+        }
+
         public static string GenerateOutputForExpectedWinner(
             string playerName,
             Hand.Types handType,
