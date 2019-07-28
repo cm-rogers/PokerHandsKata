@@ -105,6 +105,50 @@ namespace PokerHands.Tests
         }
 
         [Theory]
+        [InlineData("3H 4D 6C 5D 7S", "2H 3D 4C 5D 6S", P1Name, 25)]
+        [InlineData("AH AD 6S AC KD", "6H 3D 2C 5D 4S", P2Name, 20)]
+        public void ReturnsTheNameOfThePlayerWhoWonAStraight(
+            string p1Hand,
+            string p2Hand,
+            string expectedWinnerName,
+            int expectedWinnerScore
+        )
+        {
+            var player1 = new Player {Name = P1Name, Hand = p1Hand};
+            var player2 = new Player {Name = P2Name, Hand = p2Hand};
+            var expectedOutput = GenerateOutputForExpectedWinner(
+                expectedWinnerName,
+                Hand.Types.Straight,
+                expectedWinnerScore);
+
+            var response = _pokerGame.PlayCards(player1, player2);
+
+            response.Should().Be(expectedOutput);
+        }
+
+        [Theory]
+        [InlineData("AD 4D KD 8D 7D", "2H 3D 4C 5D 6S", P1Name, 46)]
+        [InlineData("2H 3D 4C 2D 6S", "AD 4D KD 5D 7D", P2Name, 43)]
+        public void ReturnsTheNameOfThePlayerWhoWonAFlush(
+            string p1Hand,
+            string p2Hand,
+            string expectedWinnerName,
+            int expectedWinnerScore
+        )
+        {
+            var player1 = new Player { Name = P1Name, Hand = p1Hand };
+            var player2 = new Player { Name = P2Name, Hand = p2Hand };
+            var expectedOutput = GenerateOutputForExpectedWinner(
+                expectedWinnerName,
+                Hand.Types.Flush,
+                expectedWinnerScore);
+
+            var response = _pokerGame.PlayCards(player1, player2);
+
+            response.Should().Be(expectedOutput);
+        }
+
+        [Theory]
         [InlineData("KH AD KS KC KD", "2C 2H 3S 2C AH", P1Name, 52)]
         [InlineData("2C 3H 3S 2S AH", "AH AD AS AC KD", P2Name, 56)]
         public void ReturnsTheNameOfThePlayerWhoWonFourOfAKind(
@@ -126,10 +170,11 @@ namespace PokerHands.Tests
             response.Should().Be(expectedOutput);
         }
 
+        // @TODO: Ensure there are no duplicate cards between the two players
         [Theory]
-        [InlineData("3H 4D 6C 5D 7S", "2H 3D 4C 5D 6S", P1Name, 25)]
-        [InlineData("AH AD 6S AC KD", "6H 3D 2C 5D 4S", P2Name, 20)]
-        public void ReturnsTheNameOfThePlayerWhoWonAStraight(
+        [InlineData("5S 9S 6S 8S 7S", "5S 4S 2S 8S 6S", P1Name, 35)]
+        [InlineData("9H JH 10H QH KH", "AD QD 10D JD KD", P2Name, 60)]
+        public void ReturnsTheNameOfThePlayerWhoWonStraightFlush(
             string p1Hand,
             string p2Hand,
             string expectedWinnerName,
@@ -140,7 +185,7 @@ namespace PokerHands.Tests
             var player2 = new Player {Name = P2Name, Hand = p2Hand};
             var expectedOutput = GenerateOutputForExpectedWinner(
                 expectedWinnerName,
-                Hand.Types.Straight,
+                Hand.Types.StraightFlush,
                 expectedWinnerScore);
 
             var response = _pokerGame.PlayCards(player1, player2);
