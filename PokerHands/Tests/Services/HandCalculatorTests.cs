@@ -208,21 +208,21 @@ namespace PokerHands.Tests.Services
         }
 
         [Fact]
-        public void FourOfAKindBeatsFlush()
+        public void FullHouseBeatsFlush()
         {
             const int flush = (int)Hand.Types.Flush;
-            const int fourOfAKind = (int)Hand.Types.FourOfAKind;
+            const int fullHouse = (int)Hand.Types.FullHouse;
 
-            fourOfAKind.Should().BeGreaterThan(flush);
+            fullHouse.Should().BeGreaterThan(flush);
         }
 
         [Fact]
-        public void FullHouseBeatsFourOfAKind()
+        public void FourOfAKindBeatsFullHouse()
         {
-            const int fourOfAKind = (int)Hand.Types.Flush;
             const int fullHouse = (int)Hand.Types.FullHouse;
+            const int fourOfAKind = (int)Hand.Types.FourOfAKind;
 
-            fullHouse.Should().BeGreaterThan(fourOfAKind);
+            fourOfAKind.Should().BeGreaterThan(fullHouse);
         }
     }
 }
