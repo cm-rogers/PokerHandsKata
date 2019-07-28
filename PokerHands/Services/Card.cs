@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
 
@@ -21,26 +22,23 @@ namespace PokerHands.Services
                 .Select(i => i.ToString())
                 .Concat(faceCards)
                 .ToList()
-                .SelectMany((value, index) => new []
-                    {
-                        new Card {Score = index + firstCardValue, Suit = Suits.Clubs, Value = value},
-                        new Card {Score = index + firstCardValue, Suit = Suits.Diamonds, Value = value},
-                        new Card {Score = index + firstCardValue, Suit = Suits.Hearts, Value = value},
-                        new Card {Score = index + firstCardValue, Suit = Suits.Spades, Value = value},
-                    }
+                .SelectMany((value, index) => Enum.GetValues(typeof(Suits))
+                    .Cast<Suits>()
+                    .Select(suit => new Card {Score = index + firstCardValue, Suit = suit, Value = value})
                 );
         }
 
         public static IEnumerable<Card> ConvertToHandOfCards(string hand)
         {
-            return hand.Split(" ")
-                .Select(stringCard => Deck.First(card =>
-                {
-                    var valueAsString = stringCard.Substring(0, 1);
-                    var suitAsString = stringCard.Substring(1, 1);
+            return hand.Split(" ").Select(stringCard =>
+            {
+                var value = stringCard.Substring(0, 1);
+                var suit = stringCard.Substring(1, 1);
 
-                    return card.Value == valueAsString && card.Suit == StringToSuit(suitAsString);
-                }));
+                return Deck.First(card =>
+                    card.Value == value && card.Suit == StringToSuit(suit)
+                );
+            });
         }
 
         private static Suits StringToSuit(string suit)
@@ -49,20 +47,22 @@ namespace PokerHands.Services
             {
                 return Suits.Clubs;
             }
-            else if (suit == "D")
+
+            if (suit == "D")
             {
                 return Suits.Diamonds;
             }
-            else if (suit == "H")
+
+            if (suit == "H")
             {
                 return Suits.Hearts;
             }
-            else if (suit == "S")
+
+            if (suit == "S")
             {
                 return Suits.Spades;
             }
 
-            // @TODO: Test failure case
             throw new InvalidEnumArgumentException($"'{suit}' is not a valid suit");
         }
 
@@ -71,7 +71,7 @@ namespace PokerHands.Services
             Clubs,
             Diamonds,
             Hearts,
-            Spades,
+            Spades
         }
     }
 }
