@@ -158,6 +158,24 @@ namespace PokerHands.Tests.Services
 
             response.Should().BeEquivalentTo(expectedResponse);
         }
+
+        [Fact]
+        public void CalculatesStraightFlush()
+        {
+            var playerHand = Card.ConvertToHandOfCards(
+                "5S 9S 6S 8S 7S"
+            ).ToList();
+            var expectedResponse = new Hand
+            {
+                PlayedCards = playerHand,
+                Score = 35,
+                Type = Hand.Types.StraightFlush
+            };
+
+            var response = _calculator.BestHand(playerHand);
+
+            response.Should().BeEquivalentTo(expectedResponse);
+        }
     }
 
     public class HandCalculatorTypeTests
@@ -223,6 +241,15 @@ namespace PokerHands.Tests.Services
             const int fourOfAKind = (int) Hand.Types.FourOfAKind;
 
             fourOfAKind.Should().BeGreaterThan(fullHouse);
+        }
+
+        [Fact]
+        public void StraightFlushBeatsFourOfAKind()
+        {
+            const int straightFlush = (int) Hand.Types.StraightFlush;
+            const int fourOfAKind = (int) Hand.Types.FourOfAKind;
+
+            straightFlush.Should().BeGreaterThan(fourOfAKind);
         }
     }
 }

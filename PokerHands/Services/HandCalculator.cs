@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 using System.Linq;
 using PokerHands.Models;
 
@@ -17,6 +17,7 @@ namespace PokerHands.Services
                 Flush(playedCards),
                 FullHouse(playedCards),
                 FourOfAKind(playedCards),
+                StraightFlush(playedCards)
             };
             return calculatedHands.Aggregate((bestHand, nextHand) =>
                 nextHand.Type > bestHand.Type && nextHand.PlayedCards.Any()
@@ -133,6 +134,19 @@ namespace PokerHands.Services
                 PlayedCards = cardGroups,
                 Score = cardGroups.Sum(c => c.Score),
                 Type = Hand.Types.FourOfAKind
+            };
+        }
+
+        private static Hand StraightFlush(List<Card> playedCards)
+        {
+            var isFlush = Flush(playedCards).PlayedCards.Any();
+            var isStraight = Straight(playedCards).PlayedCards.Any();
+
+            return new Hand
+            {
+                PlayedCards = isStraight && isFlush ? playedCards : new List<Card>(),
+                Score = playedCards.Sum(c => c.Score),
+                Type = Hand.Types.StraightFlush
             };
         }
 
