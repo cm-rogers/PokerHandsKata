@@ -43,6 +43,7 @@ namespace PokerHands.Tests.Services
         [Fact]
         public void ConstructsAnEnumerableOfCardsFromAString()
         {
+            var deck = Card.Deck.ToList();
             const string hand = "10H 3D 3C KD 5S";
             IEnumerable<Card> expectedCards = new List<Card>
             {
@@ -53,7 +54,7 @@ namespace PokerHands.Tests.Services
                 new Card {Score = 5, Suit = Card.Suits.Spades, Value = "5"}
             };
 
-            var convertedCards = Card.ConvertToHandOfCards(hand);
+            var convertedCards = Card.ConvertToHandOfCards(hand, ref deck);
 
             convertedCards.Should().BeEquivalentTo(expectedCards);
         }
@@ -61,9 +62,10 @@ namespace PokerHands.Tests.Services
         [Fact]
         public void PassingAnInvalidSuitThrows()
         {
+            var deck = Card.Deck.ToList();
             const string handWithInvalidSuits = "2Z 3G 3L KN 5I";
 
-            var convertedCards = Card.ConvertToHandOfCards(handWithInvalidSuits);
+            var convertedCards = Card.ConvertToHandOfCards(handWithInvalidSuits, ref deck);
 
             convertedCards.Invoking(Enumerable.ToList)
                 .Should().Throw<InvalidEnumArgumentException>()

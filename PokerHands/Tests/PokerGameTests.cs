@@ -40,7 +40,7 @@ namespace PokerHands.Tests
 
         [Theory]
         [InlineData("2H 3D 5S 9C 5D", "2C JH 2S 8C QH", P1Name, 10)]
-        [InlineData("2H KD 5S 9C KD", "2C AH 4S 8C AH", P2Name, 28)]
+        [InlineData("2H KS 5S 9C KD", "2C AS 4S 8C AH", P2Name, 28)]
         public void ReturnsTheNameOfThePlayerWhoWonAPair(
             string p1Hand,
             string p2Hand,
@@ -61,8 +61,8 @@ namespace PokerHands.Tests
         }
 
         [Theory]
-        [InlineData("3H 9D 5S 9C 3D", "2C 5H 2S 9C 5S", P1Name, 24)]
-        [InlineData("2H 3D 4S 4C KD", "2C AH KS KC AH", P2Name, 54)]
+        [InlineData("3H 9D 5S 9C 3D", "2C 5H 2S 9S 5D", P1Name, 24)]
+        [InlineData("2H 3D 4S 4C KD", "2C AH KS KC AS", P2Name, 54)]
         public void ReturnsTheNameOfThePlayerWhoWonTwoPair(
             string p1Hand,
             string p2Hand,
@@ -83,7 +83,7 @@ namespace PokerHands.Tests
         }
 
         [Theory]
-        [InlineData("KH AD KS AC KD", "2C 2H 3S 2C AH", P1Name, 39)]
+        [InlineData("KH AD KS AC KD", "2C 2H 3S 2D AH", P1Name, 39)]
         [InlineData("2C 3H 3S 2S AH", "KH AD AS AC KD", P2Name, 42)]
         public void ReturnsTheNameOfThePlayerWhoWonThreeOfAKind(
             string p1Hand,
@@ -105,7 +105,7 @@ namespace PokerHands.Tests
         }
 
         [Theory]
-        [InlineData("3H 4D 6C 5D 7S", "2H 3D 4C 5D 6S", P1Name, 25)]
+        [InlineData("3H 4D 6C 5D 7S", "2H 3D 4C 5H 6S", P1Name, 25)]
         [InlineData("AH AD 6S AC KD", "6H 3D 2C 5D 4S", P2Name, 20)]
         public void ReturnsTheNameOfThePlayerWhoWonAStraight(
             string p1Hand,
@@ -149,8 +149,8 @@ namespace PokerHands.Tests
         }
 
         [Theory]
-        [InlineData("KH AD KS KC KD", "2C 2H 3S 2C AH", P1Name, 52)]
-        [InlineData("2C 3H 3S 2S AH", "AH AD AS AC KD", P2Name, 56)]
+        [InlineData("KH AD KS KC KD", "2C 2H 3S 2S 2D", P1Name, 52)]
+        [InlineData("2C 3H 3S 2S 5D", "AH AD AS AC KD", P2Name, 56)]
         public void ReturnsTheNameOfThePlayerWhoWonFourOfAKind(
             string p1Hand,
             string p2Hand,
@@ -170,9 +170,8 @@ namespace PokerHands.Tests
             response.Should().Be(expectedOutput);
         }
 
-        // @TODO: Ensure there are no duplicate cards between the two players
         [Theory]
-        [InlineData("5S 9S 6S 8S 7S", "5S 4S 2S 8S 6S", P1Name, 35)]
+        [InlineData("10S 9S 8S JS 7S", "5S 4S 2S 3S 6S", P1Name, 45)]
         [InlineData("9H JH 10H QH KH", "AD QD 10D JD KD", P2Name, 60)]
         public void ReturnsTheNameOfThePlayerWhoWonStraightFlush(
             string p1Hand,

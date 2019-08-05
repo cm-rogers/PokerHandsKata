@@ -1,4 +1,5 @@
-﻿using PokerHands.Models;
+﻿using System.Linq;
+using PokerHands.Models;
 using PokerHands.Services;
 
 namespace PokerHands
@@ -9,8 +10,10 @@ namespace PokerHands
         {
             PlayerHand winningPlayerHand;
 
-            var player1Hand = new PlayerHand(player1);
-            var player2Hand = new PlayerHand(player2);
+            var deck = Card.Deck.ToList();
+
+            var player1Hand = new PlayerHand(player1, ref deck);
+            var player2Hand = new PlayerHand(player2, ref deck);
 
             if (player1Hand.Best.Type == player2Hand.Best.Type)
             {
