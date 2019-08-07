@@ -18,8 +18,10 @@ namespace PokerHands.Tests.Services
         [Fact]
         public void CalculatesHighCard()
         {
+            var deck = Card.Deck.ToList();
             var playerHand = Card.ConvertToHandOfCards(
-                "2H AD KC JD 5S"
+                "2H AD KC JD 5S",
+                ref deck
             ).ToList();
             var expectedResponse = new Hand
             {
@@ -36,8 +38,10 @@ namespace PokerHands.Tests.Services
         [Fact]
         public void CalculatesPair()
         {
+            var deck = Card.Deck.ToList();
             var playerHand = Card.ConvertToHandOfCards(
-                "2H AD KC KD 5S"
+                "2H AD KC KD 5S",
+                ref deck
             ).ToList();
             var expectedResponse = new Hand
             {
@@ -54,8 +58,10 @@ namespace PokerHands.Tests.Services
         [Fact]
         public void CalculatesTwoPair()
         {
+            var deck = Card.Deck.ToList();
             var playerHand = Card.ConvertToHandOfCards(
-                "2H 2D KC QD KS"
+                "2H 2D KC QD KS",
+                ref deck
             ).ToList();
             var expectedResponse = new Hand
             {
@@ -72,8 +78,10 @@ namespace PokerHands.Tests.Services
         [Fact]
         public void CalculatesThreeOfAKind()
         {
+            var deck = Card.Deck.ToList();
             var playerHand = Card.ConvertToHandOfCards(
-                "2H 2D 2C QD KS"
+                "2H 2D 2C QD KS",
+                ref deck
             ).ToList();
             var expectedResponse = new Hand
             {
@@ -90,8 +98,10 @@ namespace PokerHands.Tests.Services
         [Fact]
         public void CalculatesStraight()
         {
+            var deck = Card.Deck.ToList();
             var playerHand = Card.ConvertToHandOfCards(
-                "3H 4D 6C 5D 7S"
+                "3H 4D 6C 5D 7S",
+                ref deck
             ).ToList();
             var expectedResponse = new Hand
             {
@@ -108,8 +118,10 @@ namespace PokerHands.Tests.Services
         [Fact]
         public void CalculatesFlush()
         {
+            var deck = Card.Deck.ToList();
             var playerHand = Card.ConvertToHandOfCards(
-                "3D 4D JD KD 8D"
+                "3D 4D JD KD 8D",
+                ref deck
             ).ToList();
             var expectedResponse = new Hand
             {
@@ -126,8 +138,10 @@ namespace PokerHands.Tests.Services
         [Fact]
         public void CalculatesFullHouse()
         {
+            var deck = Card.Deck.ToList();
             var playerHand = Card.ConvertToHandOfCards(
-                "2H 2D 2C QD QS"
+                "2H 2D 2C QD QS",
+                ref deck
             ).ToList();
             var expectedResponse = new Hand
             {
@@ -144,8 +158,10 @@ namespace PokerHands.Tests.Services
         [Fact]
         public void CalculatesFourOfAKind()
         {
+            var deck = Card.Deck.ToList();
             var playerHand = Card.ConvertToHandOfCards(
-                "2H 2D 2C QD 2S"
+                "2H 2D 2C QD 2S",
+                ref deck
             ).ToList();
             var expectedResponse = new Hand
             {
@@ -162,8 +178,10 @@ namespace PokerHands.Tests.Services
         [Fact]
         public void CalculatesStraightFlush()
         {
+            var deck = Card.Deck.ToList();
             var playerHand = Card.ConvertToHandOfCards(
-                "5S 9S 6S 8S 7S"
+                "5S 9S 6S 8S 7S",
+                ref deck
             ).ToList();
             var expectedResponse = new Hand
             {

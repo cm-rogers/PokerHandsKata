@@ -28,43 +28,40 @@ namespace PokerHands.Services
                 );
         }
 
-        public static IEnumerable<Card> ConvertToHandOfCards(string hand)
+        public static IEnumerable<Card> ConvertToHandOfCards(string hand, ref List<Card> deck)
         {
+            var _deck = deck;
+
             return hand.Split(" ").Select(stringCard =>
             {
                 var valueLength = stringCard.Length - 1;
                 var value = stringCard.Substring(0, valueLength);
                 var suit = stringCard.Substring(valueLength, 1);
 
-                return Deck.First(card =>
+                var matchingCard = _deck.First(card =>
                     card.Value == value && card.Suit == StringToSuit(suit)
                 );
+
+                _deck.Remove(matchingCard);
+
+                return matchingCard;
             });
         }
 
         private static Suits StringToSuit(string suit)
         {
-            if (suit == "C")
-            {
-                return Suits.Clubs;
+            switch (suit) {
+                case "C":
+                    return Suits.Clubs;
+                case "D":
+                    return Suits.Diamonds;
+                case "H":
+                    return Suits.Hearts;
+                case "S":
+                    return Suits.Spades;
+                default:
+                    throw new InvalidEnumArgumentException($"'{suit}' is not a valid suit");
             }
-
-            if (suit == "D")
-            {
-                return Suits.Diamonds;
-            }
-
-            if (suit == "H")
-            {
-                return Suits.Hearts;
-            }
-
-            if (suit == "S")
-            {
-                return Suits.Spades;
-            }
-
-            throw new InvalidEnumArgumentException($"'{suit}' is not a valid suit");
         }
 
         public enum Suits
@@ -75,4 +72,6 @@ namespace PokerHands.Services
             Spades
         }
     }
+
+    internal static class ListExtensions { }
 }

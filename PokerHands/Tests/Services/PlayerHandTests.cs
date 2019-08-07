@@ -11,9 +11,10 @@ namespace PokerHands.Tests.Services
         [Fact]
         public void StoresThePlayer()
         {
+            var deck = Card.Deck.ToList();
             var player = new Player {Hand = "2H 3D 9C KD 5S", Name = "Alice"};
 
-            var playerHand = new PlayerHand(player);
+            var playerHand = new PlayerHand(player, ref deck);
 
             playerHand.Player.Should().BeEquivalentTo(player);
         }
@@ -21,12 +22,14 @@ namespace PokerHands.Tests.Services
         [Fact]
         public void StoresTheBestHand()
         {
+            var deck = Card.Deck.ToList();
             var player = new Player {Hand = "2H 3D 9C KD 5S", Name = "Alice"};
             var calculator = new HandCalculator();
-            var playedCards = Card.ConvertToHandOfCards(player.Hand).ToList();
+            var outcomeDeck = Card.Deck.ToList();
+            var playedCards = Card.ConvertToHandOfCards(player.Hand, ref outcomeDeck).ToList();
             var expectedOutcome = calculator.BestHand(playedCards);
 
-            var playerHand = new PlayerHand(player);
+            var playerHand = new PlayerHand(player, ref deck);
 
             playerHand.Best.Should().BeEquivalentTo(expectedOutcome);
         }
