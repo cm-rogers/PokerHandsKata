@@ -50,27 +50,18 @@ namespace PokerHands.Services
 
         private static Suits StringToSuit(string suit)
         {
-            if (suit == "C")
-            {
-                return Suits.Clubs;
+            switch (suit) {
+                case "C":
+                    return Suits.Clubs;
+                case "D":
+                    return Suits.Diamonds;
+                case "H":
+                    return Suits.Hearts;
+                case "S":
+                    return Suits.Spades;
+                default:
+                    throw new InvalidEnumArgumentException($"'{suit}' is not a valid suit");
             }
-
-            if (suit == "D")
-            {
-                return Suits.Diamonds;
-            }
-
-            if (suit == "H")
-            {
-                return Suits.Hearts;
-            }
-
-            if (suit == "S")
-            {
-                return Suits.Spades;
-            }
-
-            throw new InvalidEnumArgumentException($"'{suit}' is not a valid suit");
         }
 
         public enum Suits
